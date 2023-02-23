@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Android 状态栏操作 | 小宇宙</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="实际开发中 Android 状态栏遇到很多问题，为了 App 稳定性，就简单的使用了黑色状态栏，遇到的关于状态栏的问题有：  不同 Android 版本的显示问题，4.4 一下不可修改，4.4是半透明，5.0及以上可以全透明 状态栏背景修改 状态改变后界面错乱，例如一个 View 是显示在状态栏下面的，切换到另外一个 View 后状态栏颜色改变了 显示隐藏状态或者修改状态栏背景后界面会闪一下  业">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 状态栏操作">
+<meta property="og:url" content="http://sw926.github.io/2019/01/14/Android-%E7%8A%B6%E6%80%81%E6%A0%8F%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="小宇宙">
+<meta property="og:description" content="实际开发中 Android 状态栏遇到很多问题，为了 App 稳定性，就简单的使用了黑色状态栏，遇到的关于状态栏的问题有：  不同 Android 版本的显示问题，4.4 一下不可修改，4.4是半透明，5.0及以上可以全透明 状态栏背景修改 状态改变后界面错乱，例如一个 View 是显示在状态栏下面的，切换到另外一个 View 后状态栏颜色改变了 显示隐藏状态或者修改状态栏背景后界面会闪一下  业">
+<meta property="og:locale">
+<meta property="og:image" content="http://sw926.github.io/images/status_bar_1.gif">
+<meta property="og:image" content="http://sw926.github.io/images/status_bar_2.gif">
+<meta property="og:image" content="http://sw926.github.io/2019/01/14/Android-%E7%8A%B6%E6%80%81%E6%A0%8F%E6%93%8D%E4%BD%9C/images/4_1.png">
+<meta property="og:image" content="http://sw926.github.io/2019/01/14/Android-%E7%8A%B6%E6%80%81%E6%A0%8F%E6%93%8D%E4%BD%9C/images/4_4.png">
+<meta property="og:image" content="http://sw926.github.io/2019/01/14/Android-%E7%8A%B6%E6%80%81%E6%A0%8F%E6%93%8D%E4%BD%9C/images/5_0-2.png">
+<meta property="og:image" content="http://sw926.github.io/2019/01/14/Android-%E7%8A%B6%E6%80%81%E6%A0%8F%E6%93%8D%E4%BD%9C/images/5_0-1.png">
+<meta property="og:image" content="http://sw926.github.io/2019/01/14/Android-%E7%8A%B6%E6%80%81%E6%A0%8F%E6%93%8D%E4%BD%9C/images/6_0.png">
+<meta property="article:published_time" content="2019-01-14T03:59:01.000Z">
+<meta property="article:modified_time" content="2023-02-23T02:20:24.460Z">
+<meta property="article:author" content="sunwei">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://sw926.github.io/images/status_bar_1.gif">
+  
+    <link rel="alternate" href="/atom.xml" title="小宇宙" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">小宇宙</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://sw926.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android-状态栏操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/14/Android-%E7%8A%B6%E6%80%81%E6%A0%8F%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time datetime="2019-01-14T03:59:01.000Z" itemprop="datePublished">2019-01-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 状态栏操作
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>实际开发中 Android 状态栏遇到很多问题，为了 App 稳定性，就简单的使用了黑色状态栏，遇到的关于状态栏的问题有：</p>
+<ul>
+<li>不同 Android 版本的显示问题，4.4 一下不可修改，4.4是半透明，5.0及以上可以全透明</li>
+<li>状态栏背景修改</li>
+<li>状态改变后界面错乱，例如一个 View 是显示在状态栏下面的，切换到另外一个 View 后状态栏颜色改变了</li>
+<li>显示隐藏状态或者修改状态栏背景后界面会闪一下</li>
+</ul>
+<p>业务需求方面：</p>
+<ul>
+<li>Splash 页要求状态栏隐藏或者透明，进入主页后状态栏改变</li>
+<li>Pager 之前切换状态栏改变</li>
+<li>新的页面状态栏改变，返回后状态栏恢复</li>
+<li>同一个 View 内状态栏动态改变，例如滑动的时候</li>
+<li>等等</li>
+</ul>
+<p>网上很多文章都是是 Theme 修改状态，这个方法是可行的，但是仅靠 Theme 是不够的，有很多需求都是需要动态改变的状态栏的，我希望能达到的效果是尽量使用代码来实现，不调用系统的私有 Api，不使用反射，同时尽量满足产品需求。</p>
+<p>首先是程序的闪屏页，从 App 启动到 <code>LAUNCHER Activity</code> 的 <code>onCreate</code> 这段时间，用户看到的是一个空白的页面，系统会加载 <code>window</code> 的背景，还没有到加载 <code>xml</code> 的 <code>layout</code> 的阶段，这时我们能做的：</p>
+<ul>
+<li>控制导航栏，隐藏或者透明</li>
+<li>控制状态栏，隐藏或者透明（半透明），高版本修改背景或者文字颜色</li>
+<li>修改 window background</li>
+<li>不让界面显示，效果就是点击 App 图标后没有任何反应，直到 <code>LAUNCHER Activity</code> 的 <code>onCreate</code></li>
+</ul>
+<p>为了测试，在 <code>MainActivity</code> 的 <code>setContentView</code> 之前添加 <code>Thread.sleep(3000)</code> ，也可以添加到 <code>Application</code> <code>onCreate</code> 里面，模拟 App 启动时间为 3 秒：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line"></span><br><span class="line">    Thread.sleep(<span class="number">3000</span>)</span><br><span class="line">    setContentView(R.layout.activity_main)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>App 启动效果如下：</p>
+<p><img src="/./images/status_bar_1.gif" alt="image"></p>
+<p><code>Window</code> 区域是白屏，如果希望将白屏设置为一个图片，可以修改 <code>theme</code> ，首先添加 style:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;AppTheme.Splash&quot;</span>&gt;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowBackground&quot;</span>&gt;</span>@drawable/splash_background<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>修改 Application 的 <code>theme</code> 为 <code>AppTheme.Splash</code>，</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">package</span>=<span class="string">&quot;com.sw926.toolkitdemo&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:allowBackup</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">&quot;@mipmap/ic_launcher&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">&quot;@string/app_name&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:roundIcon</span>=<span class="string">&quot;@mipmap/ic_launcher_round&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:supportsRtl</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">&quot;@style/AppTheme&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">&quot;.MainActivity&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.MAIN&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">&quot;.TransStatsActivity&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样整个 App 的默认 <code>Window</code> 背景都修改了，所以需要在 <code>Activit</code> 的 <code>onCreate</code> 里面将 <code>theme</code> 改回来：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line"></span><br><span class="line">    Thread.sleep(<span class="number">3000</span>)</span><br><span class="line">    setTheme(R.style.AppTheme)</span><br><span class="line">    setContentView(R.layout.activity_main)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这时启动画面就不是空白了：</p>
+<p><img src="/./images/status_bar_2.gif" alt="image"></p>
+<p>接下来优化启动画面，主要做一下几点优化：</p>
+<ul>
+<li>状态栏：首先透明，不能透明就隐藏</li>
+<li>导航栏：只能透明，在 theme 中是不能隐藏导航栏的</li>
+</ul>
+<p>关于导航栏和状态栏，在 theme 资源文件中：</p>
+<ul>
+<li>4.4 以下版本可以隐藏状态栏</li>
+<li>4.4 版本可以设置状态栏和导航栏为渐进的半透明</li>
+<li>5.0 及以上版本可以修改导航栏和状态栏的背景颜色</li>
+<li>6.0 及以上版本可以设置状态栏为 light 或者 dark，算是一种修改状态栏文本颜色的方法</li>
+</ul>
+<p>在 4.4 以下版本的手机中，只能控制状态栏的显示和隐藏：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;AppTheme.TransStats&quot;</span>&gt;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowFullscreen&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>android:windowFullscreen</code> 为 <code>true</code> 的时候隐藏状态栏</p>
+<p>在 4.1 模拟器上的效果为:</p>
+<img src="./images/4_1.png" width="30%" height="30%">
+
+<p>在 4.4 版本的手机上，可以状态栏和导航栏半透明渐变，需要在 <code>res</code> 文件夹下新建一个 <code>values-v19</code> 文件夹，添加以下的 style：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;AppTheme.TransStats&quot;</span>&gt;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowFullscreen&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowTranslucentStatus&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowTranslucentNavigation&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这个配置相当于覆盖 4.4 以下的 <code>AppTheme.TransStats</code>，在 4.4 上的效果为：</p>
+<img src="./images/4_4.png" width="30%" height="30%">
+
+<p>在 5.0 及以上的手机上，我们需要新建 <code>res/values-v21</code>，作用同样是覆盖低版本的 <code>AppTheme.TransStats</code>，</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;AppTheme.TransStats&quot;</span>&gt;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowFullscreen&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="comment">&lt;!--如果 windowDrawsSystemBarBackgrounds 为 false，状态栏和导航栏背景都是黑色的--&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowDrawsSystemBarBackgrounds&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowTranslucentStatus&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:statusBarColor&quot;</span>&gt;</span>@android:color/transparent<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowTranslucentNavigation&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:navigationBarColor&quot;</span>&gt;</span>@android:color/transparent<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="comment">&lt;!--或者使用系统半透明效果--&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="comment">&lt;!--&lt;item name=&quot;android:windowTranslucentStatus&quot;&gt;true&lt;/item&gt;--&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="comment">&lt;!--&lt;item name=&quot;android:windowTranslucentNavigation&quot;&gt;true&lt;/item&gt;--&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在 5.0 模拟器上自定义颜色的效果，全透明：</p>
+<img src="./images/5_0-2.png" width="30%" height="30%">
+
+<p>使用系统的半透明的效果：</p>
+<img src="./images/5_0-1.png" width="30%" height="30%">
+
+<p>在 6.0 及以上的版本可以使用亮色主题的状态栏，这时状态栏文本颜色为灰色。新建文件夹 <code>res/values-v23</code>，添加 style:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;AppTheme.TransStats&quot;</span>&gt;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowFullscreen&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="comment">&lt;!--如果 windowDrawsSystemBarBackgrounds 为 false，状态栏和导航栏背景都是黑色的--&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowDrawsSystemBarBackgrounds&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowTranslucentStatus&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:statusBarColor&quot;</span>&gt;</span>@android:color/transparent<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowTranslucentNavigation&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:navigationBarColor&quot;</span>&gt;</span>@android:color/transparent<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="comment">&lt;!--或者使用系统半透明效果--&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="comment">&lt;!--&lt;item name=&quot;android:windowTranslucentStatus&quot;&gt;true&lt;/item&gt;--&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="comment">&lt;!--&lt;item name=&quot;android:windowTranslucentNavigation&quot;&gt;true&lt;/item&gt;--&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowLightStatusBar&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<img src="./images/6_0.png" width="30%" height="30%">
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sw926.github.io/2019/01/14/Android-%E7%8A%B6%E6%80%81%E6%A0%8F%E6%93%8D%E4%BD%9C/" data-id="cleghn5z7003kbbs65p3c6n8v" class="article-share-link">Share</a>
+      
+        <a href="http://sw926.github.io/2019/01/14/Android-%E7%8A%B6%E6%80%81%E6%A0%8F%E6%93%8D%E4%BD%9C/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/01/16/Shell%E8%AE%B0%E5%BD%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Shell 记录
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/14/Android-Studio%E7%BC%96%E8%BE%91%E5%99%A8%E4%B8%80%E7%9B%B4%E6%98%BE%E7%A4%BA%E9%94%99%E8%AF%AF%E7%9A%84%E9%97%AE%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android Studio编辑器一直显示错误的问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Node-js/">Node.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-Studio/" rel="tag">Android Studio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dagger2/" rel="tag">Dagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Databinding/" rel="tag">Databinding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gson/" rel="tag">Gson</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Thread/" rel="tag">Java Thread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Time/" rel="tag">Java Time</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Karabiner-Elements/" rel="tag">Karabiner Elements</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySql/" rel="tag">MySql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ngrok/" rel="tag">Ngrok</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/" rel="tag">Other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Room/" rel="tag">Room</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bash/" rel="tag">bash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sdkman/" rel="tag">sdkman</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sh/" rel="tag">sh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ss/" rel="tag">ss</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Studio/" style="font-size: 18px;">Android Studio</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/Dagger2/" style="font-size: 14px;">Dagger2</a> <a href="/tags/Databinding/" style="font-size: 10px;">Databinding</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/Git/" style="font-size: 12px;">Git</a> <a href="/tags/Gradle/" style="font-size: 16px;">Gradle</a> <a href="/tags/Gson/" style="font-size: 10px;">Gson</a> <a href="/tags/Java/" style="font-size: 12px;">Java</a> <a href="/tags/Java-Thread/" style="font-size: 10px;">Java Thread</a> <a href="/tags/Java-Time/" style="font-size: 10px;">Java Time</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Karabiner-Elements/" style="font-size: 10px;">Karabiner Elements</a> <a href="/tags/Kotlin/" style="font-size: 12px;">Kotlin</a> <a href="/tags/MySql/" style="font-size: 12px;">MySql</a> <a href="/tags/Nginx/" style="font-size: 12px;">Nginx</a> <a href="/tags/Ngrok/" style="font-size: 10px;">Ngrok</a> <a href="/tags/Other/" style="font-size: 10px;">Other</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Room/" style="font-size: 10px;">Room</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Spring-Boot/" style="font-size: 16px;">Spring Boot</a> <a href="/tags/bash/" style="font-size: 10px;">bash</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/sdkman/" style="font-size: 10px;">sdkman</a> <a href="/tags/sh/" style="font-size: 10px;">sh</a> <a href="/tags/ss/" style="font-size: 10px;">ss</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/14/ADB-%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">ADB 命令整理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/27/Kotlin-%E8%A1%A5%E5%9D%91/">Kotlin 补坑</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/22/Kotlin%E7%9A%84%E9%9D%9E%E7%A9%BA%E6%96%AD%E8%A8%80%E8%B0%83%E7%94%A8/">Kotlin的非空断言调用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/02/Java-Time/">Java Time</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/03/Tips-Java-Thread/">Tips:Java Thread</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 sunwei<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'sw926';
+  
+  var disqus_url = 'http://sw926.github.io/2019/01/14/Android-%E7%8A%B6%E6%80%81%E6%A0%8F%E6%93%8D%E4%BD%9C/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-62569931-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-62569931-6');
+</script>
+
+  </div>
+</body>
+</html>

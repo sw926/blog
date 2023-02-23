@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>小宇宙</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="不忘初心，方得始终">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小宇宙">
+<meta property="og:url" content="http://sw926.github.io/page/6/index.html">
+<meta property="og:site_name" content="小宇宙">
+<meta property="og:description" content="不忘初心，方得始终">
+<meta property="og:locale">
+<meta property="article:author" content="sunwei">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="小宇宙" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">小宇宙</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://sw926.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Android Studio使用greenDao" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/05/25/Android%20Studio%E4%BD%BF%E7%94%A8greenDao/" class="article-date">
+  <time datetime="2015-05-25T07:46:12.000Z" itemprop="datePublished">2015-05-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/25/Android%20Studio%E4%BD%BF%E7%94%A8greenDao/">Android Studio使用greenDao</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在工程的根目录下新建一个目录，作为DaoGenerator的目录，</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> -p ./MyDaoGenerator/src/main/java</span><br></pre></td></tr></table></figure>
+<p>目录结构如下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">└── src</span><br><span class="line">    └── main</span><br><span class="line">        └── java</span><br></pre></td></tr></table></figure>
+<p>java目录下就是存放代码的目录，在java目录下新建一个包，</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> -p com/example/mydaogenerator</span><br></pre></td></tr></table></figure>
+<p>新建一个有main函数的class备用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyDaoGenerator</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在MyDaoGenerator目录下添加build.gradle，填入以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &#x27;java&#x27;</span><br><span class="line">apply plugin: &#x27;application&#x27;</span><br><span class="line"></span><br><span class="line">applicationName = &#x27;MyDaoGenerator&#x27;</span><br><span class="line">mainClassName = &#x27;com.example.mydaogenerator.MyDaoGenerator&#x27;</span><br><span class="line"></span><br><span class="line">repositories &#123;</span><br><span class="line">    mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    compile(&#x27;de.greenrobot:DaoGenerator:+&#x27;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>MyDaoGenerator目录结构如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── build.gradle</span><br><span class="line">└── src</span><br><span class="line">    └── main</span><br><span class="line">        └── java</span><br><span class="line">            └── com</span><br><span class="line">                └── example</span><br><span class="line">                    └── mydaogenerator</span><br></pre></td></tr></table></figure>
+
+<p>添加了build.gradle之后，Studio会提示是否添加新的gradle文件，添加同步之后，新建module就添加到工程中了，<br>如果错过了添加的提示，就在工程根目录下面的settings.gradle后面加上</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include &#x27;:MyDaoGenerator&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>DaoGenerator就搭建好了，打开Android Studio的task菜单，执行application run<br><img src="/images/mydaogenrator_task.png" alt="task"></p>
+<p>一个完整的DaoGenrator如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.mydaogenerator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> de.greenrobot.daogenerator.DaoGenerator;</span><br><span class="line"><span class="keyword">import</span> de.greenrobot.daogenerator.Entity;</span><br><span class="line"><span class="keyword">import</span> de.greenrobot.daogenerator.Schema;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyDaoGenerator</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">Schema</span> <span class="variable">schema</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Schema</span>(<span class="number">1</span>, <span class="string">&quot;com.example.greendao.dao&quot;</span>);</span><br><span class="line">        addNote(schema);</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">DaoGenerator</span>().generateAll(schema, <span class="string">&quot;../app/src/main/java&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">addNote</span><span class="params">(Schema schema)</span> &#123;</span><br><span class="line">        <span class="type">Entity</span> <span class="variable">note</span> <span class="operator">=</span> schema.addEntity(<span class="string">&quot;Notes&quot;</span>);</span><br><span class="line">        note.addIdProperty();</span><br><span class="line">        note.addStringProperty(<span class="string">&quot;content&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sw926.github.io/2015/05/25/Android%20Studio%E4%BD%BF%E7%94%A8greenDao/" data-id="cleghn5yb000fbbs66ye2ez8v" class="article-share-link">Share</a>
+      
+        <a href="http://sw926.github.io/2015/05/25/Android%20Studio%E4%BD%BF%E7%94%A8greenDao/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-Studio/" rel="tag">Android Studio</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-git不常用命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/24/git%E4%B8%8D%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="article-date">
+  <time datetime="2015-04-24T08:59:56.000Z" itemprop="datePublished">2015-04-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Git/">Git</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/24/git%E4%B8%8D%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Git常用命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>查看tag </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag</span><br></pre></td></tr></table></figure>
+<p>添加本地tag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add tag tag_name</span><br></pre></td></tr></table></figure>
+<p>上传tag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin --tags</span><br></pre></td></tr></table></figure>
+<p>删除远程tag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin :refs/tags/标签名</span><br></pre></td></tr></table></figure>
+<p>删除本地</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -d v1.1.4</span><br></pre></td></tr></table></figure>
+<p>查看tag代码，需要checkout要查看的tag到新建的分支</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b tag3.5 v3.5 </span><br></pre></td></tr></table></figure>
+<p>在命令行显示当前git分支，mac上在.bash_profile中添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">为已有代码添加分支</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>git tag -a v1.2 9fceb02</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Git branch in prompt.</span><br><span class="line">parse_git_branch() &#123;</span><br><span class="line">    git branch 2]]</span><br><span class="line">&gt;</span><br><span class="line"> /dev/null | sed -e &#x27;/^[^*]/d&#x27; -e &#x27;s/* \(.*\)/ (\1)/&#x27;</span><br><span class="line">&#125; </span><br><span class="line">export PS1=&quot;\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ &quot;</span><br></pre></td></tr></table></figure>
+<p>删除submodule</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git submodule deinit asubmodule    </span><br><span class="line">git rm asubmodule</span><br><span class="line"># Note: asubmodule (no trailing slash)</span><br><span class="line"># or, if you want to leave it in your working tree</span><br><span class="line">git rm --cached asubmodule</span><br><span class="line">rm -rf .git/modules/asubmodule</span><br></pre></td></tr></table></figure>
+<p>创建补丁</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git format-patch -n origin/develop </span><br></pre></td></tr></table></figure>
+<p>n为多少个commit<br>应用补丁</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git apply --check patch</span><br></pre></td></tr></table></figure>
+
+<p>删除已经上传的ignore的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached &lt;文件名&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sw926.github.io/2015/04/24/git%E4%B8%8D%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="cleghn5ya000dbbs6151x5t52" class="article-share-link">Share</a>
+      
+        <a href="http://sw926.github.io/2015/04/24/git%E4%B8%8D%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-自定义View的measure" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/21/%E8%87%AA%E5%AE%9A%E4%B9%89View%E7%9A%84measure/" class="article-date">
+  <time datetime="2015-04-20T16:00:00.000Z" itemprop="datePublished">2015-04-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/21/%E8%87%AA%E5%AE%9A%E4%B9%89View%E7%9A%84measure/">自定义View的measure</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>onMeasure函数的两个参数，每个参数包含一个mode和一个size</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过以下方法可以取到</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">widthMode</span> <span class="operator">=</span> MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line"><span class="type">int</span> <span class="variable">heightMode</span> <span class="operator">=</span> MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line"><span class="type">int</span> <span class="variable">widthSize</span> <span class="operator">=</span> MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line"><span class="type">int</span> <span class="variable">heightSize</span> <span class="operator">=</span> MeasureSpec.getSize(heightMeasureSpec);</span><br></pre></td></tr></table></figure>
+
+<p>mode有三种</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MeasureSpec.EXACTLY</span><br><span class="line">MeasureSpec.AT_MOST</span><br><span class="line">MeasureSpec.UNSPECIFIED</span><br></pre></td></tr></table></figure>
+
+<p><strong>MeasureSpec.EXACTLY</strong><br>控件的大小是固定的，如果layout_width或者layout_height是固定的大小或者<strong>match_parent</strong></p>
+<p><strong>MeasureSpec.AT_MOST</strong><br>指定了控件允许的最大的大小，例如layout_width或者layout_height是<strong>wrap_content</strong>，会给定一个最大允许的大小</p>
+<p><strong>MeasureSpec.UNSPECIFIED</strong><br>没有指定大小</p>
+<p>通过mode和size，计算控件所需的大小，调用 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">setMeasuredDimension</span><span class="params">(<span class="type">int</span> measuredWidth, <span class="type">int</span> measuredHeight)</span></span><br></pre></td></tr></table></figure>
+<p>保存计算结果结果</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sw926.github.io/2015/04/21/%E8%87%AA%E5%AE%9A%E4%B9%89View%E7%9A%84measure/" data-id="cleghn5y80009bbs6f6r6aznr" class="article-share-link">Share</a>
+      
+        <a href="http://sw926.github.io/2015/04/21/%E8%87%AA%E5%AE%9A%E4%B9%89View%E7%9A%84measure/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-关于Android签名的种种" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/16/%E5%85%B3%E4%BA%8EAndroid%E7%AD%BE%E5%90%8D%E7%9A%84%E7%A7%8D%E7%A7%8D/" class="article-date">
+  <time datetime="2015-04-15T16:00:00.000Z" itemprop="datePublished">2015-04-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/16/%E5%85%B3%E4%BA%8EAndroid%E7%AD%BE%E5%90%8D%E7%9A%84%E7%A7%8D%E7%A7%8D/">关于Android签名的种种</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>创建一个新的证书</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ keytool -genkeypair -<span class="built_in">alias</span> <span class="string">&quot;test&quot;</span> -keyalg <span class="string">&quot;RSA&quot;</span> -keystore <span class="string">&quot;test.keystore&quot;</span></span><br><span class="line">Enter keystore password:</span><br><span class="line">Re-enter new password:</span><br><span class="line">What is your first and last name?</span><br><span class="line">  [Unknown]:  张三</span><br><span class="line">What is the name of your organizational unit?</span><br><span class="line">  [Unknown]:  www.zhansan.com</span><br><span class="line">What is the name of your organization?</span><br><span class="line">  [Unknown]:  www.zhansan.com</span><br><span class="line">What is the name of your City or Locality?</span><br><span class="line">  [Unknown]:  Beijing</span><br><span class="line">What is the name of your State or Province?</span><br><span class="line">  [Unknown]:  Beijing</span><br><span class="line">What is the two-letter country code <span class="keyword">for</span> this unit?</span><br><span class="line">  [Unknown]:  CN</span><br><span class="line">Is CN=张三, OU=www.zhansan.com, O=www.zhansan.com, L=Beijing, ST=Beijing, C=CN correct?</span><br><span class="line">  [no]:  y</span><br><span class="line"></span><br><span class="line">Enter key password <span class="keyword">for</span> &lt;<span class="built_in">test</span>&gt;</span><br><span class="line">    (RETURN <span class="keyword">if</span> same as keystore password):</span><br></pre></td></tr></table></figure>
+
+<p>-genkeypair：生成一对非对称密钥;<br>-alias：指定密钥对的别名，该别名是公开的;<br>-keyalg：指定加密算法，本例中的采用通用的RAS加密算法;<br>-keystore:密钥库的路径及名称，不指定的话，默认在操作系统的用户目录下生成一个”.keystore”的文件</p>
+<p>查看证书库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> keytool -list -keystore test.keystore</span><br><span class="line">Enter keystore password:</span><br><span class="line"></span><br><span class="line">Keystore <span class="built_in">type</span>: JKS</span><br><span class="line">Keystore provider: SUN</span><br><span class="line"></span><br><span class="line">Your keystore contains 1 entry</span><br><span class="line"></span><br><span class="line"><span class="built_in">test</span>, Apr 16, 2015, PrivateKeyEntry,</span><br><span class="line">Certificate fingerprint (SHA1): 88:AB:10:48:04:9E:2A:71:10:BD:1E:94:83:80:67:16:01:E2:47:11</span><br></pre></td></tr></table></figure>
+
+<p>导出到证书文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ keytool -<span class="built_in">export</span> -<span class="built_in">alias</span> <span class="built_in">test</span> -file test.crt -keystore test.keystore</span><br><span class="line">Enter keystore password:</span><br><span class="line">Certificate stored <span class="keyword">in</span> file &lt;test.crt&gt;</span><br></pre></td></tr></table></figure>
+
+<p>导入证书文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ keytool -import -keystore test.keystore -file test.crt</span><br><span class="line">Enter keystore password:</span><br><span class="line">Certificate already exists <span class="keyword">in</span> keystore under <span class="built_in">alias</span> &lt;<span class="built_in">test</span>&gt;</span><br><span class="line">Do you still want to add it? [no]:  y</span><br><span class="line">Certificate was added to keystore</span><br></pre></td></tr></table></figure>
+
+<p>查看证书的信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ keytool -printcert -file <span class="string">&quot;test.crt&quot;</span></span><br><span class="line">Owner: CN=张三, OU=www.zhansan.com, O=www.zhansan.com, L=Beijing, ST=Beijing, C=CN</span><br><span class="line">Issuer: CN=张三, OU=www.zhansan.com, O=www.zhansan.com, L=Beijing, ST=Beijing, C=CN</span><br><span class="line">Serial number: 5f6822b2</span><br><span class="line">Valid from: Thu Apr 16 12:37:01 CST 2015 until: Wed Jul 15 12:37:01 CST 2015</span><br><span class="line">Certificate fingerprints:</span><br><span class="line">     MD5:  0C:4C:4F:8C:5D:65:89:0E:05:E4:F1:2B:EE:E2:A6:96</span><br><span class="line">     SHA1: 88:AB:10:48:04:9E:2A:71:10:BD:1E:94:83:80:67:16:01:E2:47:11</span><br><span class="line">     SHA256: 08:25:05:C9:5A:9E:6A:94:DB:69:37:29:45:5F:E7:AE:F2:91:06:AE:43:DA:87:7A:75:1F:FA:CB:7A:C2:94:30</span><br><span class="line">     Signature algorithm name: SHA256withRSA</span><br><span class="line">     Version: 3</span><br><span class="line"></span><br><span class="line">Extensions:</span><br><span class="line"></span><br><span class="line"><span class="comment">#1: ObjectId: 2.5.29.14 Criticality=false</span></span><br><span class="line">SubjectKeyIdentifier [</span><br><span class="line">KeyIdentifier [</span><br><span class="line">0000: 72 73 55 78 1D 5F 6E 39   D4 D7 ED 3E 5C 2F B7 32  rsUx._n9...&gt;\/.2</span><br><span class="line">0010: E6 E2 AD 45                                        ...E</span><br><span class="line">]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>删除一个条目</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ keytool -delete -keystore test.keystore -<span class="built_in">alias</span> <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>有时候如果App中集成了微博或者微信等分享功能，使用的时候会验证App的签名，如果想要在Eclipse中调试的时候也能进行分享，就需要将生产证书修改为调试证书。调试证书的alias为androiddebugkey，密码为android<br>修改证书别名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ keytool -changealias -<span class="built_in">alias</span> <span class="built_in">test</span> -destalias androiddebugkey -keystore test.keystore</span><br></pre></td></tr></table></figure>
+
+<p>结果如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ keytool -list -keystore test.keystore</span><br><span class="line">Enter keystore password:</span><br><span class="line"></span><br><span class="line">Keystore <span class="built_in">type</span>: JKS</span><br><span class="line">Keystore provider: SUN</span><br><span class="line"></span><br><span class="line">Your keystore contains 1 entry</span><br><span class="line"></span><br><span class="line">androiddebugkey, Apr 16, 2015, PrivateKeyEntry,</span><br><span class="line">Certificate fingerprint (SHA1): ED:7D:96:5E:A8:C1:D7:4F:42:97:91:A4:57:BC:44:82:65:65:18:14</span><br></pre></td></tr></table></figure>
+
+<p>修改证书密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ keytool -keypasswd -<span class="built_in">alias</span> androiddebugkey -keypass 234567 -new android -storepass 123456 -keystore test.keystore</span><br></pre></td></tr></table></figure>
+
+<p>修改证书库密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ keytool -storepasswd -storepass 123456 -new android -keystore test.keystore</span><br></pre></td></tr></table></figure>
+
+<p>签名apk</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ jarsigher -verbose -keystore test.keystore test.apk <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sw926.github.io/2015/04/16/%E5%85%B3%E4%BA%8EAndroid%E7%AD%BE%E5%90%8D%E7%9A%84%E7%A7%8D%E7%A7%8D/" data-id="cleghn5y70008bbs64d40hzgy" class="article-share-link">Share</a>
+      
+        <a href="http://sw926.github.io/2015/04/16/%E5%85%B3%E4%BA%8EAndroid%E7%AD%BE%E5%90%8D%E7%9A%84%E7%A7%8D%E7%A7%8D/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android 黑色主题的Logcat color" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/10/Android%20%E9%BB%91%E8%89%B2%E4%B8%BB%E9%A2%98%E7%9A%84Logcat%20color/" class="article-date">
+  <time datetime="2015-04-09T16:00:00.000Z" itemprop="datePublished">2015-04-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/10/Android%20%E9%BB%91%E8%89%B2%E4%B8%BB%E9%A2%98%E7%9A%84Logcat%20color/">Android 黑色主题的Logcat Color</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Info <span style='color:#629655'>#629655</span></p>
+<p>Debug <span style='color:#6897BB'>#6897BB</span></p>
+<p>Warning <span style='color:#CC7832'>#CC7832</span></p>
+<p>Error <span style='color:#BC3F3C'>#BC3F3C</span></p>
+<p>Assert <span style='color:#FF0000'>#FF0000</span> 或者 <span style='color:#9876AA'>#9876AA</span></p>
+
+<p>打开Preference，搜索logcat，点击save as，新建一个Schema name</p>
+<p>取消勾选<br/>
+<img src="/images/logcat_1.png"/>
+</p>
+<p>然后就可以修改颜色了</p>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sw926.github.io/2015/04/10/Android%20%E9%BB%91%E8%89%B2%E4%B8%BB%E9%A2%98%E7%9A%84Logcat%20color/" data-id="cleghn5y60007bbs65o7uh6yw" class="article-share-link">Share</a>
+      
+        <a href="http://sw926.github.io/2015/04/10/Android%20%E9%BB%91%E8%89%B2%E4%B8%BB%E9%A2%98%E7%9A%84Logcat%20color/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-Studio/" rel="tag">Android Studio</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android Studio工程使用Grade Wrapper" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/07/Android%20Studio%E5%B7%A5%E7%A8%8B%E4%BD%BF%E7%94%A8Grade%20Wrapper/" class="article-date">
+  <time datetime="2015-04-06T16:00:00.000Z" itemprop="datePublished">2015-04-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/07/Android%20Studio%E5%B7%A5%E7%A8%8B%E4%BD%BF%E7%94%A8Grade%20Wrapper/">Android Studio工程使用Grade Wrapper</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>配置Gradle的环境很简单，从网上下载Gradle包，解压到任意文件夹，将bin目录添加到环境变量，输入gradle -v，如果能正确看到版本号，说明gradle配置成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ gradle -v</span><br><span class="line"></span><br><span class="line">------------------------------------------------------------</span><br><span class="line">Gradle 2.3</span><br><span class="line">------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Build time:   2015-02-16 05:09:33 UTC</span><br><span class="line">Build number: none</span><br><span class="line">Revision:     586be72bf6e3df1ee7676d1f2a3afd9157341274</span><br><span class="line"></span><br><span class="line">Groovy:       2.3.9</span><br><span class="line">Ant:          Apache Ant(TM) version 1.9.3 compiled on December 23 2013</span><br><span class="line">JVM:          1.7.0_71 (Oracle Corporation 24.71-b01)</span><br><span class="line">OS:           Mac OS X 10.10.2 x86_64</span><br></pre></td></tr></table></figure>
+
+<p>在导入工程的时候选择<strong>Use local gradle distribution</strong>，可以使用本地的Gradle，Android Studio会忽略Gradle Wrapper。</p>
+<p>但是推荐使用Gradle Wrapper，Gradle Wrapper为工程指定了一个Gradle版本，导入工程的时候，会自动下载对应版本的Gradle，这样在team中就不会出现多个版本的Gradle。</p>
+<p>使用Android Studio新建工程的时候会自动生成Wrapper，在根目录下生成一个gradle文件夹，里面有gradle-wrapper.jar和gradle-wrapper.properties两个文件，gradle-wrapper.properties内容如下</p>
+<pre><code>#Tue Apr 07 14:27:52 CST 2015
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
+distributionUrl=https\://services.gradle.org/distributions/gradle-2.3-bin.zip
+</code></pre>
+<p>distributionUrl指定了gradle的下载地址</p>
+<p>如果工程根目录中没有gradle这个文件夹，可以使用命令生成wrapper</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gradle init wrapper</span><br></pre></td></tr></table></figure>
+<p>使用的是你本地gradle的版本</p>
+<p>如果想指定gradle的版本，在build.gradle中添加一个task</p>
+<pre><code>task wrapper(type: Wrapper) &#123;
+    gradleVersion = &#39;2.2.1&#39;
+&#125;
+</code></pre>
+<p>执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gradle wrapper</span><br></pre></td></tr></table></figure>
+
+<p>wrapper会修改为刚才指定的版本</p>
+<p>使用了gradle wrapper，在命令行下，应该使用gradlew，例如打包的时候，应该</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./gradlew assembleRelease</span><br></pre></td></tr></table></figure>
+<p>这样使用的时wrapper指定的gradle版本进行编译。</p>
+<p>导入工程的时候，Gradle project应该选择工程的根目录，有时候后面会跟上gradle，应该去掉，<br>然后选择Use default gradle wrapper(recommended)</p>
+<p>点击OK，然后就悲剧的开始读条，显示正在下载gradle。。。</p>
+<p>一个gradle的二进制zip包有40多个M，没有一个好翻墙渠道，那要下载好一会了，而且只读条，没有进度，不知道什么时候下载好，这个忍不了！<br>mac下，gradle的wrapper文件在**~&#x2F;.gradle&#x2F;wrapper**目录下，目录结构如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[~/.gradle/wrapper] $ tree</span><br><span class="line">.</span><br><span class="line">└── dists</span><br><span class="line">    └── gradle-2.3-bin</span><br><span class="line">        └── a48v6zq5mdp1uyn9rwlj56945</span><br><span class="line">            ├── gradle-2.3-bin.zip.lck</span><br><span class="line">            └── gradle-2.3-bin.zip.part</span><br><span class="line"></span><br><span class="line">3 directories, 2 files</span><br></pre></td></tr></table></figure>
+<p>这是下载到一半的情况，我实在忍受不了，说以强制退出了。通过上面的目录结构，结合</p>
+<pre><code>https://services.gradle.org/distributions/gradle-2.3-bin.zip
+</code></pre>
+<p>可以推断出gradle wrapper在下载的时候临时文件的保存位置，<code>a48v6zq5mdp1uyn9rwlj56945</code>是url的hash，至于怎么得出的，通过分析gradle的源码，找到了urlhash的计算方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getHash</span><span class="params">(String string)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">MessageDigest</span> <span class="variable">messageDigest</span> <span class="operator">=</span> MessageDigest.getInstance(<span class="string">&quot;MD5&quot;</span>);</span><br><span class="line">            <span class="type">byte</span>[] bytes = string.getBytes();</span><br><span class="line">            messageDigest.update(bytes);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">BigInteger</span>(<span class="number">1</span>, messageDigest.digest()).toString(<span class="number">36</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;Could not hash input string.&quot;</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>下载对应的gradle的zip包，拷贝到wrapper目录，在工程目录下执行.&#x2F;gradlew assembleRelease，应该不会看到下载gradle的信息了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sw926.github.io/2015/04/07/Android%20Studio%E5%B7%A5%E7%A8%8B%E4%BD%BF%E7%94%A8Grade%20Wrapper/" data-id="cleghn5xy0001bbs6fvc7f2b0" class="article-share-link">Share</a>
+      
+        <a href="http://sw926.github.io/2015/04/07/Android%20Studio%E5%B7%A5%E7%A8%8B%E4%BD%BF%E7%94%A8Grade%20Wrapper/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-使用Jekyll和github搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/03/%E4%BD%BF%E7%94%A8Jekyll%E5%92%8Cgithub%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" class="article-date">
+  <time datetime="2015-04-02T16:00:00.000Z" itemprop="datePublished">2015-04-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Other/">Other</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/03/%E4%BD%BF%E7%94%A8Jekyll%E5%92%8Cgithub%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">使用Jekyll和github搭建博客</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>经过两天的摸索，终于在github上成功搭建了一个简单的博客。对于一个懂一点git，会搭ruby环境，没做过网页的Android程序猿来说，能搭建起了，已经很满足了。</p>
+
+<h5>搭建环境之前，首先要配置好ruby，bunlder</h5>
+
+<p>新建文件夹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> myblog</span><br></pre></td></tr></table></figure>
+
+<p>在根目录下添加一个Gemfile，输入以下内容</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source <span class="string">&#x27;https://rubygems.org&#x27;</span></span><br><span class="line">gem <span class="string">&#x27;github-pages&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>在根目录执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bundle install</span><br></pre></td></tr></table></figure>
+
+<p>我的命令执行如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ bundle install</span><br><span class="line">Using RedCloth 4.2.9</span><br><span class="line">Using i18n 0.7.0</span><br><span class="line">Using json 1.8.2</span><br><span class="line">Using minitest 5.5.1</span><br><span class="line">Using thread_safe 0.3.5</span><br><span class="line">Using tzinfo 1.2.2</span><br><span class="line">Using activesupport 4.2.1</span><br><span class="line">Using blankslate 2.1.2.4</span><br><span class="line">Using hitimes 1.2.2</span><br><span class="line">Using timers 4.0.1</span><br><span class="line">Using celluloid 0.16.0</span><br><span class="line">Using fast-stemmer 1.0.2</span><br><span class="line">Using classifier-reborn 2.0.3</span><br><span class="line">Using coffee-script-source 1.9.1</span><br><span class="line">...</span><br><span class="line">Your bundle is complete!</span><br><span class="line">Use `bundle show [gemname]` to see <span class="built_in">where</span> a bundled gem is installed.</span><br></pre></td></tr></table></figure>
+
+<p>至此，可以认为jekyll已经搭好了</p>
+
+<p>之后的操作参考了这个帖子 <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html">搭建一个免费的，无限流量的Blog----github Pages和Jekyll入门</a></p>
+<p>参考上面的帖子，新建了_layout，_posts，index.html，先不要push到github</p>
+<p>在根目录运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ jekyll serve</span><br></pre></td></tr></table></figure>
+<p>用浏览器打开<code>http://localhost:4000</code></p>
+<p>如果能正常看到网页，整个blog就已经搭建成功了</p>
+<p>虽然能够正常运行，但页面太简陋了，所以从github拷贝了一个模板，方法就是利用gitbub pages生成一个默认的页面，然后将这个页面修改成为模板。</p>
+
+<p>上传到github的时候，只要把生成的静态网页上传就行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> _site</span><br><span class="line">$ git init</span><br><span class="line">$ git add --all</span><br><span class="line">$ git commit <span class="string">&quot;first commit&quot;</span></span><br><span class="line">$ git remote add origin <span class="string">&quot;你的git Repositories地址&quot;</span></span><br><span class="line">$ git push -u origin master</span><br></pre></td></tr></table></figure>
+
+<p>打开{username}.github.io，就能看到刚才写的博客</p>
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sw926.github.io/2015/04/03/%E4%BD%BF%E7%94%A8Jekyll%E5%92%8Cgithub%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" data-id="cleghn5y20003bbs6bxczepmf" class="article-share-link">Share</a>
+      
+        <a href="http://sw926.github.io/2015/04/03/%E4%BD%BF%E7%94%A8Jekyll%E5%92%8Cgithub%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Other/" rel="tag">Other</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Node-js/">Node.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-Studio/" rel="tag">Android Studio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dagger2/" rel="tag">Dagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Databinding/" rel="tag">Databinding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gson/" rel="tag">Gson</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Thread/" rel="tag">Java Thread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Time/" rel="tag">Java Time</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Karabiner-Elements/" rel="tag">Karabiner Elements</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySql/" rel="tag">MySql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ngrok/" rel="tag">Ngrok</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/" rel="tag">Other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Room/" rel="tag">Room</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bash/" rel="tag">bash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sdkman/" rel="tag">sdkman</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sh/" rel="tag">sh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ss/" rel="tag">ss</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Studio/" style="font-size: 18px;">Android Studio</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/Dagger2/" style="font-size: 14px;">Dagger2</a> <a href="/tags/Databinding/" style="font-size: 10px;">Databinding</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/Git/" style="font-size: 12px;">Git</a> <a href="/tags/Gradle/" style="font-size: 16px;">Gradle</a> <a href="/tags/Gson/" style="font-size: 10px;">Gson</a> <a href="/tags/Java/" style="font-size: 12px;">Java</a> <a href="/tags/Java-Thread/" style="font-size: 10px;">Java Thread</a> <a href="/tags/Java-Time/" style="font-size: 10px;">Java Time</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Karabiner-Elements/" style="font-size: 10px;">Karabiner Elements</a> <a href="/tags/Kotlin/" style="font-size: 12px;">Kotlin</a> <a href="/tags/MySql/" style="font-size: 12px;">MySql</a> <a href="/tags/Nginx/" style="font-size: 12px;">Nginx</a> <a href="/tags/Ngrok/" style="font-size: 10px;">Ngrok</a> <a href="/tags/Other/" style="font-size: 10px;">Other</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Room/" style="font-size: 10px;">Room</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Spring-Boot/" style="font-size: 16px;">Spring Boot</a> <a href="/tags/bash/" style="font-size: 10px;">bash</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/sdkman/" style="font-size: 10px;">sdkman</a> <a href="/tags/sh/" style="font-size: 10px;">sh</a> <a href="/tags/ss/" style="font-size: 10px;">ss</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/14/ADB-%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">ADB 命令整理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/27/Kotlin-%E8%A1%A5%E5%9D%91/">Kotlin 补坑</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/22/Kotlin%E7%9A%84%E9%9D%9E%E7%A9%BA%E6%96%AD%E8%A8%80%E8%B0%83%E7%94%A8/">Kotlin的非空断言调用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/02/Java-Time/">Java Time</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/03/Tips-Java-Thread/">Tips:Java Thread</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 sunwei<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'sw926';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-62569931-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-62569931-6');
+</script>
+
+  </div>
+</body>
+</html>

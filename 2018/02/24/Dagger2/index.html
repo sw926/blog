@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Dagger2 | 小宇宙</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Dagger是一个注入工具，何为注入，我们要生产一批机器人，每个机器人都有一个控制器，我们可以在机器人内部 new 出一个控制器： 123class Robot &amp;#123;    val controller &#x3D; Controller()&amp;#125;  上面的代码 Robot 和 Controller 耦合，修改一下上面的代码，从外部传入控制器，这就叫注入： 1class Robot(val c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dagger2">
+<meta property="og:url" content="http://sw926.github.io/2018/02/24/Dagger2/index.html">
+<meta property="og:site_name" content="小宇宙">
+<meta property="og:description" content="Dagger是一个注入工具，何为注入，我们要生产一批机器人，每个机器人都有一个控制器，我们可以在机器人内部 new 出一个控制器： 123class Robot &amp;#123;    val controller &#x3D; Controller()&amp;#125;  上面的代码 Robot 和 Controller 耦合，修改一下上面的代码，从外部传入控制器，这就叫注入： 1class Robot(val c">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-02-24T08:40:57.000Z">
+<meta property="article:modified_time" content="2023-02-23T02:20:24.458Z">
+<meta property="article:author" content="sunwei">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Dagger2">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="小宇宙" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">小宇宙</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://sw926.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Dagger2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/24/Dagger2/" class="article-date">
+  <time datetime="2018-02-24T08:40:57.000Z" itemprop="datePublished">2018-02-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Dagger2
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Dagger是一个注入工具，何为注入，我们要生产一批机器人，每个机器人都有一个控制器，我们可以在机器人内部 new 出一个控制器：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Robot</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> controller = Controller()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码 Robot 和 Controller 耦合，修改一下上面的代码，从外部传入控制器，这就叫注入：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Robot</span>(<span class="keyword">val</span> controller: Controller)</span><br></pre></td></tr></table></figure>
+
+<p>这样做的好处就是修改了控制器，但是不用修改机器人的代码，一般情况下，我们需要把控制器声明为接口，这样一个机器人就可以兼容不同的控制器</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Controller</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">move</span><span class="params">()</span></span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">stop</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BasicController</span> : <span class="type">Controller</span> &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">move</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">stop</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AdvancedController</span> : <span class="type">Controller</span> &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">move</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">stop</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// ..</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Robot</span>(<span class="keyword">val</span> controller: Controller)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">createRobot</span><span class="params">(controller: <span class="type">Controller</span>)</span></span> = Robot(controller)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> basicRobot = createRobot(BasicController())</span><br><span class="line">    <span class="keyword">val</span> advancedRobot = createRobot(AdvancedController())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码就是精简版的Dagger，当然结构天差地别，但是思路差不多，下面开始讲Dagger。<br>Dagger是个注入框架，帮助我们来实现注入的功能，拿上面的例子来说，我们写好了 Robot 和 各种 Controller 的代码，Dagger 帮我们将他们联系起来，也就是实现函数 createRobot 的功能。<br>Dagger2 的功能是通过编译器生成中间代码来实现的，编译器可以为我们生成代码，但是要生成什么代码是需要我们指定的，拿上面的例子来说，我们需要为 Robot 注入一个 Controller，我们需要指定：</p>
+<ul>
+<li>Controller 的构造方法</li>
+<li>需要注入的成员变量</li>
+<li>在什么地方注入</li>
+</ul>
+<p>未使用 Dagger 之前，代码是这样的： </p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Controller</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Robot</span>(<span class="keyword">val</span> controller: Controller)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> controller = Controller()</span><br><span class="line"><span class="keyword">val</span> robot = Robot(controller)</span><br></pre></td></tr></table></figure>
+
+<p>现在我们来改写代码，首先要指定 Controller 的构造方法，在 Controller 的构造函数添加 @Inject 注解：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Controller</span> <span class="meta">@Inject</span> <span class="keyword">constructor</span>()</span><br></pre></td></tr></table></figure>
+
+<p>指定需要注入的变量</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Robot</span> &#123;</span><br><span class="line">    <span class="meta">@Inject</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> controller: Controller</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>现在编译一下，等待 Dagger 生成中间代码，Dagger为我们生成以下的代码： </p>
+<p>Controller_Factory.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">Controller_Factory</span> <span class="keyword">implements</span> <span class="title class_">Factory</span>&lt;Controller&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Controller_Factory</span> <span class="variable">INSTANCE</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Controller_Factory</span>();</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> Controller <span class="title function_">get</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Controller</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> Factory&lt;Controller&gt; <span class="title function_">create</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> INSTANCE;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Robot_MembersInjector.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">Robot_MembersInjector</span> <span class="keyword">implements</span> <span class="title class_">MembersInjector</span>&lt;Robot&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Provider&lt;Controller&gt; controllerProvider;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Robot_MembersInjector</span><span class="params">(Provider&lt;Controller&gt; controllerProvider)</span> &#123;</span><br><span class="line">    <span class="keyword">assert</span> controllerProvider != <span class="literal">null</span>;</span><br><span class="line">    <span class="built_in">this</span>.controllerProvider = controllerProvider;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> MembersInjector&lt;Robot&gt; <span class="title function_">create</span><span class="params">(Provider&lt;Controller&gt; controllerProvider)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Robot_MembersInjector</span>(controllerProvider);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">injectMembers</span><span class="params">(Robot instance)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (instance == <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NullPointerException</span>(<span class="string">&quot;Cannot inject members into a null reference&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    instance.controller = controllerProvider.get();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非常好，Dagger 为我们生成了一个 Controller 的构造类 Controller_Factory，我们可以通过</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Controller_Factory.create()</span><br></pre></td></tr></table></figure>
+
+<p>获取一个单例的 Controller 对象，或者通过：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Controller_Factory().<span class="keyword">get</span>()</span><br><span class="line"><span class="comment">// or</span></span><br><span class="line">Controller_Factory.create().<span class="keyword">get</span>()</span><br></pre></td></tr></table></figure>
+
+<p>创建一个新的 Controller 对象，如果要注入到 Robot，需要使用 Robot_MembersInjector 的 injectMembers 的函数，改造后的最终代码是</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Controller</span> <span class="meta">@Inject</span> <span class="keyword">constructor</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Robot</span> &#123;</span><br><span class="line">    <span class="meta">@Inject</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> controller: Controller</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">val</span> factory = Controller_Factory.create()</span><br><span class="line">        <span class="keyword">val</span> injector = Robot_MembersInjector.create(factory)</span><br><span class="line">        injector.injectMembers(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在添加一个注入的成员变量 power：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Controller</span> <span class="meta">@Inject</span> <span class="keyword">constructor</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Power</span> <span class="meta">@Inject</span> <span class="keyword">constructor</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Robot</span> &#123;</span><br><span class="line">    <span class="meta">@Inject</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> controller: Controller</span><br><span class="line">    <span class="meta">@Inject</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> power: Power</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">val</span> controllerFactory = Controller_Factory.create()</span><br><span class="line">        <span class="keyword">val</span> powerFactory = Power_Factory.create()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">val</span> injector = Robot_MembersInjector.create(controllerFactory, powerFactory)</span><br><span class="line"></span><br><span class="line">        injector.injectMembers(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这时应该祭出 Componet 了，我们来声明一个 AppComponet：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">AppComponent</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(robot: <span class="type">Robot</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后使用 Component 来注入变量，Dagger 会根据 AppComponent 生成一个 DaggerAppComponent：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Robot</span> &#123;</span><br><span class="line">    <span class="meta">@Inject</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> controller: Controller</span><br><span class="line">    <span class="meta">@Inject</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> power: Power</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        DaggerAppComponent.builder().build().inject(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们来分析一下 DaggerAppComponent 的源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">DaggerAppComponent</span> <span class="keyword">implements</span> <span class="title class_">AppComponent</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> MembersInjector&lt;Robot&gt; robotMembersInjector;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="title function_">DaggerAppComponent</span><span class="params">(Builder builder)</span> &#123;</span><br><span class="line">    <span class="keyword">assert</span> builder != <span class="literal">null</span>;</span><br><span class="line">    initialize(builder);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> Builder <span class="title function_">builder</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Builder</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> AppComponent <span class="title function_">create</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Builder</span>().build();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">initialize</span><span class="params">(<span class="keyword">final</span> Builder builder)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>.robotMembersInjector =</span><br><span class="line">        Robot_MembersInjector.create(Controller_Factory.create(), Power_Factory.create());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">inject</span><span class="params">(Robot robot)</span> &#123;</span><br><span class="line">    robotMembersInjector.injectMembers(robot);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">Builder</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Builder</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> AppComponent <span class="title function_">build</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DaggerAppComponent</span>(<span class="built_in">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>DaggerAppComponent 为我们构造了 Robot_MembersInjector ，在 <em>public void inject(Robot robot)</em> 调用了 <em>injectMembers</em> 方法，如果我们把 Robot 的代码复制一遍，新建一个 Robot2 类，AppComponet 修改为： </p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">AppComponent</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(robot: <span class="type">Robot</span>)</span></span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(robot: <span class="type">Robot2</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>DaggerAppComponent 有什么变化呢？它会多一个 <em>robot2MembersInjector</em> 成员变量，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">initialize</span><span class="params">(<span class="keyword">final</span> Builder builder)</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="built_in">this</span>.robotMembersInjector =</span><br><span class="line">    Robot_MembersInjector.create(Controller_Factory.create(), Power_Factory.create());</span><br><span class="line"></span><br><span class="line"><span class="built_in">this</span>.robot2MembersInjector =</span><br><span class="line">    Robot2_MembersInjector.create(Controller_Factory.create(), Power_Factory.create());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">inject</span><span class="params">(Robot robot)</span> &#123;</span><br><span class="line">robotMembersInjector.injectMembers(robot);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">inject</span><span class="params">(Robot2 robot)</span> &#123;</span><br><span class="line">robot2MembersInjector.injectMembers(robot);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同理，在 Componet 添加多个 inject，会生成对应的 MembersInjector。现在我们注入的 Power 和 Controller 是不是单例的呢？不是的。来看 Robot_MembersInjector 的 injectMembers 函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">injectMembers</span><span class="params">(Robot instance)</span> &#123;</span><br><span class="line"><span class="keyword">if</span> (instance == <span class="literal">null</span>) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NullPointerException</span>(<span class="string">&quot;Cannot inject members into a null reference&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">instance.controller = controllerProvider.get();</span><br><span class="line">instance.power = powerProvider.get();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对应的 MembersInjector 的 get 方法都是 new 出一个对象。现在我们想把 Power 注入变成单例的，先加个 <em>@Singleton</em>：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Power</span> <span class="meta">@Inject</span> <span class="keyword">constructor</span>()</span><br></pre></td></tr></table></figure>
+
+<p>编译一下，报错了…</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Error:(11, 2) 错误: com.sw926.dagger2example.AppComponent (unscoped) may not reference scoped bindings:</span><br><span class="line">@dagger.Component()</span><br><span class="line">^</span><br><span class="line">      @Singleton class com.sw926.dagger2example.Power</span><br></pre></td></tr></table></figure>
+
+<p>Component 是连接 Provider 和 Injector 的桥梁，*@Singleton* 是作用域，不在一个域看来不让连接，那么给 Component 也加上注解：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">AppComponent</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(robot: <span class="type">Robot</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译通过了，再来看 DaggerAppComponent 的源码，powerProvider 部分改变了，变成了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">this</span>.powerProvider = DoubleCheck.provider(Power_Factory.create());</span><br></pre></td></tr></table></figure>
+
+<p>DoubleCheck 的源码不用贴了，作用就是能保证 Provider get 的时候返回的是单例，而且是安全的，而是是懒加载的，很完美。</p>
+<p>作为一个严谨的程序，一个 Power 哪里够用，我们需要一个备用的，也就是说，需要两个单例的 Power，现在 Module 要登场了。Module 是构造方法的仓库，我们把 Power 的注解去掉，改为在 Module 中提供构造方法，然后在 Component 中指定 Module</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Power</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AppModule</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">providePower</span><span class="params">()</span></span> = Power()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="meta">@Component(modules = [(AppModule::class)])</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">AppComponent</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(robot: <span class="type">Robot</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在添加一个 BackUp Power</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Power</span>(<span class="keyword">val</span> name: String)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加一个 BackUp 注解</span></span><br><span class="line"><span class="meta">@Qualifier</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> BackUp &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AppModule</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">providePower</span><span class="params">()</span></span>: Power = Power(<span class="string">&quot;main&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BackUp</span></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideBackUpPower</span><span class="params">()</span></span>: Power = Power(<span class="string">&quot;backup&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Robot</span> &#123;</span><br><span class="line">    <span class="meta">@Inject</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> controller: Controller</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> power: Power</span><br><span class="line">    <span class="meta">@field:</span>[Inject BackUp] <span class="keyword">lateinit</span> <span class="keyword">var</span> backUpPower: Power</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        DaggerAppComponent.builder().build().inject(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在注入 Power的时候，默认是 <em>main</em>, 如果添加了 @BackUp 注解，就是 <em>backup</em>，Robot_MembersInjector 会有三个 Provider</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">injectMembers</span><span class="params">(Robot instance)</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (instance == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NullPointerException</span>(<span class="string">&quot;Cannot inject members into a null reference&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  instance.controller = controllerProvider.get();</span><br><span class="line">  instance.power = powerProvider.get();</span><br><span class="line">  instance.backUpPower = backUpPowerProvider.get();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>是时候来验证一下是否是单例了，我们来创建两个 Robot ，看他们的 Power 和 BackUpPower 是否一样：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> robot1 = Robot()</span><br><span class="line"><span class="keyword">val</span> robot2 = Robot()</span><br><span class="line"></span><br><span class="line">Log.d(<span class="string">&quot;Dagger2Test&quot;</span>, <span class="string">&quot;robot1 :(<span class="subst">$&#123;robot1.power&#125;</span>, <span class="subst">$&#123;robot1.backUpPower&#125;</span>), \nrobot2: (<span class="subst">$&#123;robot2.power&#125;</span>, <span class="subst">$&#123;robot2.backUpPower&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">robot1 :(com.sw926.dagger2example.Power@5f1ad48, com.sw926.dagger2example.Power@862e7e1), </span><br><span class="line">robot2: (com.sw926.dagger2example.Power@dc97906, com.sw926.dagger2example.Power@24c8bc7</span><br></pre></td></tr></table></figure>
+
+<p>说好的单例呢，怎么能骗人呢？大神们当然不会骗人，那肯定是我们的使用方式不对了，我们再来看看代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="meta">@Provides</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">providePower</span><span class="params">()</span></span>: Power = Power(<span class="string">&quot;main&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="meta">@Component(modules = [(AppModule::class)])</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">AppComponent</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(robot: <span class="type">Robot</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们把注入分为三个部分：</p>
+<ul>
+<li>提供者（Provider）</li>
+<li>接受者，Robot 中的成员变量 power</li>
+<li>提供者和接受者直接的桥梁、纽带，也就 AppComponent</li>
+</ul>
+<p>Dagger 中，使用 Scope 注解的 Provider 提供的对象在作用域内唯一，这个唯一性由谁来控制呢？当然是 Component，每个 Component 只能确保自己注入时的作用域唯一，上面的例子每个 Robot 都创建了一个 AppComponent，所以注入的对象不相同，如果我们把 AppComponent 放在 Application 中创建，<br>那么注入的对象就是全局唯一对象了：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">App</span> : <span class="type">Application</span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword">lateinit</span> <span class="keyword">var</span> appComponent: AppComponent</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate()</span><br><span class="line">        appComponent = DaggerAppComponent.builder().build()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Robot</span> &#123;</span><br><span class="line">    <span class="meta">@Inject</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> controller: Controller</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> power: Power</span><br><span class="line">    <span class="meta">@field:</span>[Inject BackUp] <span class="keyword">lateinit</span> <span class="keyword">var</span> backUpPower: Power</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        App.appComponent.inject(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">robot1 :(com.sw926.dagger2example.Power@862e7e1, com.sw926.dagger2example.Power@dc97906), </span><br><span class="line">robot2: (com.sw926.dagger2example.Power@862e7e1, com.sw926.dagger2example.Power@dc97906</span><br></pre></td></tr></table></figure>
+
+<p>如果同一个作用域内希望获取两个 Power，那么必须要起个名字区分一下，Qualifier 就是用来区别作用域内的两个对象，我们也可以用 @Named，相当于为第二个 Power起了一个名字：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AppModule</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">providePower</span><span class="params">()</span></span>: Power = Power(<span class="string">&quot;main&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Named(<span class="string">&quot;backup&quot;</span>)</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideBackUpPower</span><span class="params">()</span></span>: Power = Power(<span class="string">&quot;backup&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Robot</span> &#123;</span><br><span class="line">    <span class="meta">@Inject</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> controller: Controller</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> power: Power</span><br><span class="line">    <span class="meta">@field:</span>[Inject Named(<span class="string">&quot;backup&quot;</span>)] <span class="keyword">lateinit</span> <span class="keyword">var</span> backUpPower: Power</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        App.appComponent.inject(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在我们有了一个全局的 AppComponent，放在 Application 里面，管理 App 全局唯一的对象，现在我想有一个 Activity 生命周期的 Component，放在 每个 Activity 里面，Activity 的生命周期肯定在 App 的声明周期里面，所以 ActivityComponent 需要能够注入 AppComponent 注入的对象，现在 AppComponent 能够注入 Power BackUpPower，那么 ActivityComponent 也需要能够注入，这是需要用到 dependencies：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ForActivity</span></span><br><span class="line"><span class="meta">@Component(dependencies = [(AppComponent::class)], modules = [(ActivityModule::class)])</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ActivityComponent</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(mainActivity: <span class="type">MainActivity</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们为 ActivityComponent 设置了一个作用域 @ForActivity，ActivityComponent 依赖于 AppComponent，现在来看看这样做有什么用。</p>
+<p>注入一个对象需要一个 Provider，Provider 有以下几种形式：</p>
+<ul>
+<li>指定类的构造函数  <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Controller</span> <span class="meta">@Inject</span> <span class="keyword">constructor</span>()</span><br></pre></td></tr></table></figure></li>
+<li>使用 Provider 函数  <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="meta">@Provides</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">providePower</span><span class="params">()</span></span>: Power = Power(<span class="string">&quot;main&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+<li>从 dependencies 读取</li>
+</ul>
+<p>前两种不用说了，来说说第三种，ActivityComponent 的 module 是 ActivityModule</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ActivityModule</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ForActivity</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">providePowerName</span><span class="params">(<span class="meta">@Named(<span class="string">&quot;backup&quot;</span>)</span> power: <span class="type">Power</span>)</span></span>: String &#123;</span><br><span class="line">        <span class="keyword">return</span> power.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 <em>providePowerName</em> 需要参数 <em>@Named(“backup”) power: Power</em>，这个 power 哪里找？当然是 Dagger 帮我们找，Provider 的三种形式，第一种没有，ActivityModule 里面没有，AppModule 里面有，但是怎么建立连接呢，很简单，在 AppComponent 写一个函数就行</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="meta">@Component(modules = [(AppModule::class)])</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">AppComponent</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(robot: <span class="type">Robot</span>)</span></span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Named(<span class="string">&quot;backup&quot;</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getBackUpPower</span><span class="params">()</span></span>: Power</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为什么写一个函数就行，源码我也没看过，就当做这是 Dagger 的协议吧，编译后会生成对应的函数</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Power getBackUpPower() &#123;</span><br><span class="line">  <span class="keyword">return</span> provideBackUpPowerProvider.<span class="keyword">get</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在 ActivityComponent 的 module ActivityModule 找到了对应的 Provider，就可以正常提供 Power Name 了。</p>
+<p>有了 AppComponent、ActivityComponent，下面就要添加 FragmentComponent了，Fragment 依赖于 Activity，那么我们这样做，FragmentComponent 只能由 ActivityComponent 创建，这就要用到 SubComponent，FragmentComponent 使用 @Subcomponent 注解，同时必须注明一个 Builder：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ForFragment</span></span><br><span class="line"><span class="meta">@Subcomponent(modules = [(FragmentModule::class)])</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">FragmentComponent</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Subcomponent</span>.Builder</span><br><span class="line">    <span class="keyword">interface</span> <span class="title class_">Builder</span> &#123;</span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">build</span><span class="params">()</span></span>: FragmentComponent</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ActivityComponent 改写为：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ForActivity</span></span><br><span class="line"><span class="meta">@Component(dependencies = [(AppComponent::class)], modules = [(ActivityModule::class)])</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ActivityComponent</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">inject</span><span class="params">(mainActivity: <span class="type">MainActivity</span>)</span></span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">fragmentComponent</span><span class="params">()</span></span>: FragmentComponent.Builder</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 ActivityModule 里面指明 subcomponents ：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module(subcomponents = [(FragmentComponent::class)])</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ActivityModule</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ForActivity</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">providePowerName</span><span class="params">(<span class="meta">@Named(<span class="string">&quot;backup&quot;</span>)</span> power: <span class="type">Power</span>)</span></span>: String &#123;</span><br><span class="line">        <span class="keyword">return</span> power.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>编译完成之后我们就可以使用 ActivityComponent 创建一个 FragmentComponent 了：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> activityComponent = DaggerActivityComponent.builder().appComponent(App.appComponent).build()</span><br><span class="line">activityComponent.inject(<span class="keyword">this</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> fragmentComponent = activityComponent.fragmentComponent().build()</span><br></pre></td></tr></table></figure>
+
+<p>最后说一下 Module 的 includes，也就是一个 Module 可以包含一组 Module</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ActivityModule2</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">provideException</span><span class="params">()</span></span>: Exception &#123;</span><br><span class="line">        <span class="keyword">return</span> Exception(<span class="string">&quot;test Exception &quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Module(subcomponents = [(FragmentComponent::class)], includes = [(ActivityModule2::class)])</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ActivityModule</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ForActivity</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">providePowerName</span><span class="params">(<span class="meta">@Named(<span class="string">&quot;backup&quot;</span>)</span> power: <span class="type">Power</span>)</span></span>: String &#123;</span><br><span class="line">        <span class="keyword">return</span> power.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MainActivity</span> : <span class="type">AppCompatActivity</span>() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> exception: Exception</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">val</span> activityComponent = DaggerActivityComponent.builder().appComponent(App.appComponent).build()</span><br><span class="line">        activityComponent.inject(<span class="keyword">this</span>)</span><br><span class="line"></span><br><span class="line">        Log.d(<span class="string">&quot;Dagger2Test&quot;</span>, <span class="string">&quot;Exception: <span class="variable">$exception</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D/Dagger2Test: Exception: java.lang.Exception: test Exception </span><br></pre></td></tr></table></figure>
+
+<p>以上，使用 Dagger 好几年了，终于把思路理的比较清晰了，在此抛砖引玉，如果错误，欢迎指正。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sw926.github.io/2018/02/24/Dagger2/" data-id="cleghn5yx002lbbs6duu9bej5" class="article-share-link">Share</a>
+      
+        <a href="http://sw926.github.io/2018/02/24/Dagger2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dagger2/" rel="tag">Dagger2</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/16/Android-Keyboard%E5%BC%80%E5%8F%91/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android Keyboard开发
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/11/08/ConstraintLayout/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ConstraintLayout（约束布局）笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Node-js/">Node.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-Studio/" rel="tag">Android Studio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dagger2/" rel="tag">Dagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Databinding/" rel="tag">Databinding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gson/" rel="tag">Gson</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Thread/" rel="tag">Java Thread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Time/" rel="tag">Java Time</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Karabiner-Elements/" rel="tag">Karabiner Elements</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySql/" rel="tag">MySql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ngrok/" rel="tag">Ngrok</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/" rel="tag">Other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Room/" rel="tag">Room</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bash/" rel="tag">bash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sdkman/" rel="tag">sdkman</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sh/" rel="tag">sh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ss/" rel="tag">ss</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Studio/" style="font-size: 18px;">Android Studio</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/Dagger2/" style="font-size: 14px;">Dagger2</a> <a href="/tags/Databinding/" style="font-size: 10px;">Databinding</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/Git/" style="font-size: 12px;">Git</a> <a href="/tags/Gradle/" style="font-size: 16px;">Gradle</a> <a href="/tags/Gson/" style="font-size: 10px;">Gson</a> <a href="/tags/Java/" style="font-size: 12px;">Java</a> <a href="/tags/Java-Thread/" style="font-size: 10px;">Java Thread</a> <a href="/tags/Java-Time/" style="font-size: 10px;">Java Time</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Karabiner-Elements/" style="font-size: 10px;">Karabiner Elements</a> <a href="/tags/Kotlin/" style="font-size: 12px;">Kotlin</a> <a href="/tags/MySql/" style="font-size: 12px;">MySql</a> <a href="/tags/Nginx/" style="font-size: 12px;">Nginx</a> <a href="/tags/Ngrok/" style="font-size: 10px;">Ngrok</a> <a href="/tags/Other/" style="font-size: 10px;">Other</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Room/" style="font-size: 10px;">Room</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Spring-Boot/" style="font-size: 16px;">Spring Boot</a> <a href="/tags/bash/" style="font-size: 10px;">bash</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/sdkman/" style="font-size: 10px;">sdkman</a> <a href="/tags/sh/" style="font-size: 10px;">sh</a> <a href="/tags/ss/" style="font-size: 10px;">ss</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/14/ADB-%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">ADB 命令整理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/27/Kotlin-%E8%A1%A5%E5%9D%91/">Kotlin 补坑</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/22/Kotlin%E7%9A%84%E9%9D%9E%E7%A9%BA%E6%96%AD%E8%A8%80%E8%B0%83%E7%94%A8/">Kotlin的非空断言调用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/02/Java-Time/">Java Time</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/03/Tips-Java-Thread/">Tips:Java Thread</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 sunwei<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'sw926';
+  
+  var disqus_url = 'http://sw926.github.io/2018/02/24/Dagger2/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-62569931-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-62569931-6');
+</script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java Time | 小宇宙</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Java Time 简介Java Time 是 Java8 新加入的一个包，用来替换 Calendar、Date 这些 Java 类。Java Time 符合 JSR310 规范，JSR310 实际上有两个日期概念。第一个是Instant，它大致对应于java.util.Date类，因为它代表了一个确定的时间点，即相对于标准Java纪元（1970年1月1日）的偏移量；但与java.util.Dat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Time">
+<meta property="og:url" content="http://sw926.github.io/2019/11/02/Java-Time/index.html">
+<meta property="og:site_name" content="小宇宙">
+<meta property="og:description" content="Java Time 简介Java Time 是 Java8 新加入的一个包，用来替换 Calendar、Date 这些 Java 类。Java Time 符合 JSR310 规范，JSR310 实际上有两个日期概念。第一个是Instant，它大致对应于java.util.Date类，因为它代表了一个确定的时间点，即相对于标准Java纪元（1970年1月1日）的偏移量；但与java.util.Dat">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-11-01T16:05:11.000Z">
+<meta property="article:modified_time" content="2023-02-23T02:20:24.463Z">
+<meta property="article:author" content="sunwei">
+<meta property="article:tag" content="Java Time">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="小宇宙" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">小宇宙</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://sw926.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java-Time" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/11/02/Java-Time/" class="article-date">
+  <time datetime="2019-11-01T16:05:11.000Z" itemprop="datePublished">2019-11-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java Time
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Java-Time-简介"><a href="#Java-Time-简介" class="headerlink" title="Java Time 简介"></a>Java Time 简介</h2><p>Java Time 是 Java8 新加入的一个包，用来替换 Calendar、Date 这些 Java 类。Java Time 符合 JSR310 规范，JSR310 实际上有两个日期概念。第一个是Instant，它大致对应于<code>java.util.Date</code>类，因为它代表了一个确定的时间点，即相对于标准Java纪元（1970年1月1日）的偏移量；但与<code>java.util.Date</code>类不同的是其精确到了纳秒级别。第二个对应于人类自身的观念，比如<code>LocalDate</code>和<code>LocalTime</code>。他们代表了一般的时区概念，要么是日期（不包含时间），要么是时间（不包含日期），类似于<code>java.sql</code>的表示方式。此外，还有一个<code>MonthDay</code>，它可以存储某人的生日（不包含年份）。每个类都在内部存储正确的数据而不是像<code>java.util.Date</code>那样利用午夜12点来区分日期，利用<code>1970-01-01</code>来表示时间。</p>
+<p>Java Time 中所有的时间对象都是 <strong>Immutable</strong> 的，是不可变的，和 <code>String</code> 一样，对象一旦生成就不能修改它的属性，这个保证了它们都是线程安全的。</p>
+<p>在 Android 开发中使用 Java Time 需要 minSdkVersion 最低 Android O，api level 26，这基本是不可能的，现阶段使用 Java Time 需要使用替代方案，这个推荐两种：joda-time 和 Threetenabp。joda-time 的开发者也是 JSR310 的制定者，和 JSR310 api 基本一致，有少许差别，Threetenabp 是一个 backport 版本，和 JSR310 api 完全一致。为了以后迁移方便，最好还是使用 Threetenabp。Threetenabp 引入方法很简单，添加 dependencies</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">&#x27;com.jakewharton.threetenabp:threetenabp:1.2.3&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>在 Application 中进行初始化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="built_in">super</span>.onCreate();</span><br><span class="line">  AndroidThreeTen.init(<span class="built_in">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Java-Time-使用"><a href="#Java-Time-使用" class="headerlink" title="Java Time 使用"></a>Java Time 使用</h2><p>Java Time 由5个包组成：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">java.time <span class="comment">// 基础包</span></span><br><span class="line">java.time.chrono <span class="comment">// 年表，用于不同的日历系统</span></span><br><span class="line">java.time.format <span class="comment">// 格式化和解析时间和日期</span></span><br><span class="line">java.time.temporal <span class="comment">// 包括底层框架和扩展特性</span></span><br><span class="line">java.time.zone <span class="comment">// 包含时区支持的类</span></span><br></pre></td></tr></table></figure>
+
+<p>我们主要使用的是基础包和 format，如果要使用农历、伊斯兰历会用到 chrono。我们从最常用的类开始介绍。</p>
+<h3 id="LocalDateTime、LocalDate、LocalTime"><a href="#LocalDateTime、LocalDate、LocalTime" class="headerlink" title="LocalDateTime、LocalDate、LocalTime"></a>LocalDateTime、LocalDate、LocalTime</h3><p>这三个类都是无时区的本地时间，分别表示时间日期、日期、时间，最简单的构造方法是通过 <code>now()</code> 方法：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> localDateTime = LocalDateTime.now() <span class="comment">// 当前日期和时间 2020-04-21T09:55:27.429053</span></span><br><span class="line"><span class="keyword">val</span> localDate = LocalDate.now() <span class="comment">// 当前日期 2020-04-21</span></span><br><span class="line"><span class="keyword">val</span> localTime = LocalTime.now() <span class="comment">// 当前时间 09:55:27.429661</span></span><br></pre></td></tr></table></figure>
+
+<p>它们之间可以通过一些方法转换：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">localDateTime.toLocalDate() <span class="comment">// LocalDateTime 转 LocalDate</span></span><br><span class="line">localDateTime.toLocalTime() <span class="comment">// LocalDateTime 转 LocalTime</span></span><br><span class="line"></span><br><span class="line">localDate.atTime(localTime) <span class="comment">// LocalDate 转 LocalDateTime</span></span><br><span class="line">localTime.atDate(localDate) <span class="comment">// LocalTime 转 LocalDateTime</span></span><br></pre></td></tr></table></figure>
+
+<p>简单来说就是 LocalDateTime 可以提取时间和日期，LocalDate 填上时间成为 LocalDateTime， LocalTime 填上日期成为 LocalDateTime。</p>
+<p>日期操作可以总结为以下几个：</p>
+<ul>
+<li>加 plus</li>
+<li>减 minus</li>
+<li>设置 with</li>
+<li>转换 to</li>
+<li>结合 at</li>
+</ul>
+<h3 id="at-系列方法"><a href="#at-系列方法" class="headerlink" title="at 系列方法"></a>at 系列方法</h3><p><code>localDate.atTime(localTime)</code> 就是一个日期结合时间成为一个 LocalDateTime，同样，LocalDateTime 结合时区成为 ZonedDateTime ：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> localDateTime = LocalDateTime.now()</span><br><span class="line">println(localDateTime)</span><br><span class="line"><span class="keyword">val</span> zonedDateTime = localDateTime.atZone(ZoneId.of(<span class="string">&quot;UTC&quot;</span>))</span><br><span class="line">println(zonedDateTime)</span><br></pre></td></tr></table></figure>
+
+<p>ZonedDateTime 的输出就有时区了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-04-21T10:16:44.938773</span><br><span class="line">2020-04-21T10:16:44.938773Z[UTC]</span><br></pre></td></tr></table></figure>
+
+<p>at 系列方法就是对内容的扩展。</p>
+<h3 id="plus-x2F-minus-系列方法"><a href="#plus-x2F-minus-系列方法" class="headerlink" title="plus&#x2F;minus 系列方法"></a>plus&#x2F;minus 系列方法</h3><p>使用 plus&#x2F;minus 开头的方法是对当前对象加&#x2F;减一个单位生成一个新的对象，例如：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> localDateTime = LocalDateTime.now()</span><br><span class="line"><span class="keyword">val</span> nextMonth = localDateTime.plusMonths(<span class="number">1</span>) <span class="comment">// 加一个月</span></span><br><span class="line"><span class="keyword">val</span> yesterday = localDateTime.minusDays(<span class="number">1</span>) <span class="comment">// 减一天</span></span><br><span class="line"><span class="keyword">val</span> preHour = localDateTime.minusHours(<span class="number">1</span>) <span class="comment">// 减一小时</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="with-系列方法"><a href="#with-系列方法" class="headerlink" title="with 系列方法"></a>with 系列方法</h3><p>with 开头的方法是设置对应的属性的值生成一个新的对象，例如：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> localDateTime = LocalDateTime.now()</span><br><span class="line"><span class="keyword">val</span> jan = localDateTime.withMonth(<span class="number">1</span>) <span class="comment">// 设置为一月</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="to-系列方法"><a href="#to-系列方法" class="headerlink" title="to 系列方法"></a>to 系列方法</h3><p>to 开头的方法是转换的操作，例如：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> localDate = localDateTime.toLocalDate()</span><br></pre></td></tr></table></figure>
+
+<p>转换只能是同级或者向下转换，例如同级转换:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> nanoOfDay = LocalTime.now().toNanoOfDay()</span><br><span class="line"><span class="keyword">val</span> epocSecond = ZonedDateTime.now().toEpochSecond()</span><br></pre></td></tr></table></figure>
+
+<p>LocalTime 只能转换为从今天0点开始的多少纳秒，ZonedDateTime 可以转换为 epoc 时间戳。</p>
+<p><strong>需要注意，所有对象都是 Immutable 的，以上的操作都是在原始对象的基础上生成一个新的对象，不会修改原来的对象。</strong></p>
+<h3 id="时间对比"><a href="#时间对比" class="headerlink" title="时间对比"></a>时间对比</h3><p>Java Time 都实现了 equals 方法和 Comparable，想比较两个时间的先后，可以直接通过 <code>compareTo()</code> 方法：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> dateTime1 = LocalDateTime.now()</span><br><span class="line"><span class="keyword">val</span> dateTime2 = dateTime1.minusNanos(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">dateTime2.compareTo(dateTime1) <span class="comment">// 0 相等，负数 dateTime2 在 dateTime1 之前，正数 dateTime2 在 dateTime1 之后</span></span><br></pre></td></tr></table></figure>
+
+<p>使用 Kotlin 的话就更加直观：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (dateTime1 &gt; dateTime2) &#123;</span><br><span class="line">    <span class="comment">// dateTime1 在 dateTime2 之后</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (dateTime1 == dateTime2) &#123;</span><br><span class="line">    <span class="comment">// dateTime1 dateTime2 相同</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// dateTime1 在 dateTime1 之前</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="计算时间差"><a href="#计算时间差" class="headerlink" title="计算时间差"></a>计算时间差</h3><p>时间差可以使用 <code>ChronoUnit</code> 计算：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> localDate = LocalDate.of(<span class="number">2012</span>, <span class="number">12</span>, <span class="number">1</span>)</span><br><span class="line"><span class="keyword">val</span> localDate2 = LocalDate.of(<span class="number">2012</span>, <span class="number">11</span>, <span class="number">1</span>)</span><br><span class="line"><span class="keyword">val</span> days = ChronoUnit.DAYS.between(localDate2, localDate)</span><br><span class="line"><span class="keyword">val</span> months = ChronoUnit.MONTHS.between(localDate2, localDate)</span><br><span class="line"><span class="keyword">val</span> years = ChronoUnit.YEARS.between(localDate2, localDate)</span><br></pre></td></tr></table></figure>
+
+<p>这个时间差计算的是绝对的时间差，一个月是一年的时间除以12，2012-12-1和2012-11-1月份相差1，2012-12-1和2012-11-10月份相差0。</p>
+<h3 id="考虑时区的转换"><a href="#考虑时区的转换" class="headerlink" title="考虑时区的转换"></a>考虑时区的转换</h3><p>如果不考虑时区，LocalDateTime、LocalDate、LocalTime 这三个类已经够用了，如果考虑时区，就会遇到这样的问题：</p>
+<ul>
+<li>服务器接口是 UTC 时间，客户端需要转换为用户本地的世界</li>
+<li>用户输入的时间是当前时区的时间，服务器接口要求是 UTC 时间</li>
+<li>等等 …</li>
+</ul>
+<p>这就涉及到一些比较复杂的转换规则，我们先给 Java Time 的类按照包含内容的丰富程度拍个序，从小到大依次为：</p>
+<ol>
+<li>LocalDate&#x2F;LocalTime</li>
+<li>LocalDateTime&#x2F;Instant</li>
+<li>OffsetDateTime</li>
+<li>ZonedDateTime</li>
+</ol>
+<p>Instant 是指从 0时区1970-01-01 0点的偏移时间，它能表示绝对时间，可以通过打印看一下它和 LocalDateTime 的区别：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> ms = System.currentTimeMillis()</span><br><span class="line"><span class="keyword">val</span> instant = Instant.ofEpochMilli(ms)</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;<span class="variable">$instant</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;<span class="subst">$&#123;LocalDateTime.now()&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-04-21T04:03:53.886Z</span><br><span class="line">2020-04-21T12:03:53.947636</span><br></pre></td></tr></table></figure>
+
+<p>Instant 多了一个 <code>Z</code>，用来表示是 UTC 时间，看样子 Instant 的内容应该丰富些，但是 Instant 不能进行日期计算，而且通过 LocalDateTime 获取 Instant 使用的是 <code>toInstant()</code>，从 api 命名也显示它们是一个平级的关系。</p>
+<p>回到第一个问题，服务器的时间格式如果是标准的 iso 字符串，例如 <code>2020-04-21T04:03:53.886Z</code>，我们直接用 <code>Instant.parse()</code> 就可以，如果是时间戳，使用 <code>Instant.ofEpochMilli()</code> 或者 <code>Instant.ofEpochSecond()</code>，如果是 <code>2012-12-01 12:30:10</code>，使用如下方法：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> instant = LocalDateTime</span><br><span class="line">    .parse(<span class="string">&quot;2012-12-01 12:30:10&quot;</span>, DateTimeFormatter.ofPattern(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>))</span><br><span class="line">    .toInstant(ZoneOffset.UTC)</span><br></pre></td></tr></table></figure>
+
+<p>这样我们成功将服务器接口里面的时间转换为了 Instant 对象，下一步就可以将 Instant 转换为 LocalDateTime 来使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LocalDateTime.ofInstant(instant, ZoneId.systemDefault()) // 默认时区</span><br><span class="line">LocalDateTime.ofInstant(instant, ZoneOffset.ofHours(8)) // 指定时区</span><br></pre></td></tr></table></figure>
+
+<p>同理，用户输入的时间为转换为 UTC，假设用户在东8区</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> now = LocalDateTime.now()</span><br><span class="line"><span class="keyword">val</span> instant = now.toInstant(ZoneOffset.ofHours(<span class="number">8</span>))</span><br></pre></td></tr></table></figure>
+
+<p>还有一种简单的方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OffsetDateTime.now().toInstant()</span><br></pre></td></tr></table></figure>
+
+<h3 id="OffsetDateTime-和-ZonedDateTime-区别"><a href="#OffsetDateTime-和-ZonedDateTime-区别" class="headerlink" title="OffsetDateTime 和 ZonedDateTime 区别"></a>OffsetDateTime 和 ZonedDateTime 区别</h3><p>OffsetDateTime 和 ZonedDateTime 都能表示绝对时间，都带有时区和时间日期。</p>
+<p>我们的知道时区的概念，0 时区 0 点的时候，北京时间是 8 点，OffsetDateTime 对象中就带有这个偏移量，打印 OffsetDateTime：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(OffsetDateTime.now())</span><br></pre></td></tr></table></figure>
+
+<p>输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020-04-21T13:00:40.823521+08:00</span><br></pre></td></tr></table></figure>
+
+<p>当前时间是东八区下午一点，如果打印 ZonedDateTime：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(ZonedDateTime.now())</span><br></pre></td></tr></table></figure>
+
+<p>输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020-04-21T13:02:56.629844+08:00[Asia/Shanghai]</span><br></pre></td></tr></table></figure>
+
+<p>多了一个 ZoneId，通过这个 ZoneId，同一个时区下也可能时间不同，例如澳大利亚是是实行夏时令的，夏时令（Daylight Saving Time：DST），又称“日光节约时制”和“夏令时间”，在这一制度实行期间所采用的统一时间称为“夏令时间”。一般在天亮早的夏季人为将时间调快一小时，可以使人早起早睡，减少照明量，以充分利用光照资源，从而节约照明用电。澳大利亚夏时令时间为 10-7 到 4-1，我们测试一下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> zoneId = ZoneId.of(<span class="string">&quot;Australia/Sydney&quot;</span>)</span><br><span class="line">println(Instant.parse(<span class="string">&quot;2018-05-01T08:00:00.000Z&quot;</span>).atZone(zoneId))</span><br><span class="line">println(Instant.parse(<span class="string">&quot;2018-11-01T08:00:00.000Z&quot;</span>).atZone(zoneId))</span><br></pre></td></tr></table></figure>
+
+<p>输出的结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2018-05-01T18:00+10:00[Australia/Sydney]</span><br><span class="line">2018-11-01T19:00+11:00[Australia/Sydney]</span><br></pre></td></tr></table></figure>
+
+<p>同一个城市，UTC时间都是早上8点，但是5月1号悉尼是18点，11月1号悉尼是19点。这也说明了 ZonedDateTime 包含的内容要比 OffsetDateTime 多。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sw926.github.io/2019/11/02/Java-Time/" data-id="cleghn5zp0053bbs6cip009fz" class="article-share-link">Share</a>
+      
+        <a href="http://sw926.github.io/2019/11/02/Java-Time/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-Time/" rel="tag">Java Time</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/22/Kotlin%E7%9A%84%E9%9D%9E%E7%A9%BA%E6%96%AD%E8%A8%80%E8%B0%83%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Kotlin的非空断言调用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/07/03/Tips-Java-Thread/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Tips:Java Thread</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Node-js/">Node.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-Studio/" rel="tag">Android Studio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dagger2/" rel="tag">Dagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Databinding/" rel="tag">Databinding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gson/" rel="tag">Gson</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Thread/" rel="tag">Java Thread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Time/" rel="tag">Java Time</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Karabiner-Elements/" rel="tag">Karabiner Elements</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySql/" rel="tag">MySql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ngrok/" rel="tag">Ngrok</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/" rel="tag">Other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Room/" rel="tag">Room</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bash/" rel="tag">bash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sdkman/" rel="tag">sdkman</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sh/" rel="tag">sh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ss/" rel="tag">ss</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Studio/" style="font-size: 18px;">Android Studio</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/Dagger2/" style="font-size: 14px;">Dagger2</a> <a href="/tags/Databinding/" style="font-size: 10px;">Databinding</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/Git/" style="font-size: 12px;">Git</a> <a href="/tags/Gradle/" style="font-size: 16px;">Gradle</a> <a href="/tags/Gson/" style="font-size: 10px;">Gson</a> <a href="/tags/Java/" style="font-size: 12px;">Java</a> <a href="/tags/Java-Thread/" style="font-size: 10px;">Java Thread</a> <a href="/tags/Java-Time/" style="font-size: 10px;">Java Time</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Karabiner-Elements/" style="font-size: 10px;">Karabiner Elements</a> <a href="/tags/Kotlin/" style="font-size: 12px;">Kotlin</a> <a href="/tags/MySql/" style="font-size: 12px;">MySql</a> <a href="/tags/Nginx/" style="font-size: 12px;">Nginx</a> <a href="/tags/Ngrok/" style="font-size: 10px;">Ngrok</a> <a href="/tags/Other/" style="font-size: 10px;">Other</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Room/" style="font-size: 10px;">Room</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Spring-Boot/" style="font-size: 16px;">Spring Boot</a> <a href="/tags/bash/" style="font-size: 10px;">bash</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/sdkman/" style="font-size: 10px;">sdkman</a> <a href="/tags/sh/" style="font-size: 10px;">sh</a> <a href="/tags/ss/" style="font-size: 10px;">ss</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/14/ADB-%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">ADB 命令整理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/27/Kotlin-%E8%A1%A5%E5%9D%91/">Kotlin 补坑</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/22/Kotlin%E7%9A%84%E9%9D%9E%E7%A9%BA%E6%96%AD%E8%A8%80%E8%B0%83%E7%94%A8/">Kotlin的非空断言调用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/02/Java-Time/">Java Time</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/03/Tips-Java-Thread/">Tips:Java Thread</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 sunwei<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'sw926';
+  
+  var disqus_url = 'http://sw926.github.io/2019/11/02/Java-Time/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-62569931-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-62569931-6');
+</script>
+
+  </div>
+</body>
+</html>

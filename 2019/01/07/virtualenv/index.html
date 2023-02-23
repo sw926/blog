@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Python 环境管理 | 小宇宙</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="virtualenv安装： 1pip install virtualenv  Mac 上要添加 sudo 每个 virtualenv 使用文件夹进行区分，新建一个 evn： 1virtualenv my_project  进入 my_project 文件夹，这时 env 还没有激活，激活 evn： 1source bin&#x2F;activate  这时命令会变成： 1(my_project) ➜  my">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 环境管理">
+<meta property="og:url" content="http://sw926.github.io/2019/01/07/virtualenv/index.html">
+<meta property="og:site_name" content="小宇宙">
+<meta property="og:description" content="virtualenv安装： 1pip install virtualenv  Mac 上要添加 sudo 每个 virtualenv 使用文件夹进行区分，新建一个 evn： 1virtualenv my_project  进入 my_project 文件夹，这时 env 还没有激活，激活 evn： 1source bin&#x2F;activate  这时命令会变成： 1(my_project) ➜  my">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-01-07T09:54:05.000Z">
+<meta property="article:modified_time" content="2023-02-23T02:20:24.460Z">
+<meta property="article:author" content="sunwei">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="小宇宙" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">小宇宙</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://sw926.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-virtualenv" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/07/virtualenv/" class="article-date">
+  <time datetime="2019-01-07T09:54:05.000Z" itemprop="datePublished">2019-01-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python 环境管理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="virtualenv"><a href="#virtualenv" class="headerlink" title="virtualenv"></a>virtualenv</h2><p>安装：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install virtualenv</span><br></pre></td></tr></table></figure>
+
+<p>Mac 上要添加 <code>sudo</code></p>
+<p>每个 <code>virtualenv</code> 使用文件夹进行区分，新建一个 <code>evn</code>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtualenv my_project</span><br></pre></td></tr></table></figure>
+
+<p>进入 <code>my_project</code> 文件夹，这时 <code>env</code> 还没有激活，激活 <code>evn</code>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> bin/activate</span><br></pre></td></tr></table></figure>
+
+<p>这时命令会变成：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(my_project) ➜  my_project</span><br></pre></td></tr></table></figure>
+
+<p><code>my_project</code> 使用的是默认的 <code>python</code> 版本，如果要指定 <code>env</code> 的版本</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtualenv -p /usr/local/bin/python3 my_project2</span><br></pre></td></tr></table></figure>
+
+<p>激活后 <code>python</code> 的版本就会改变：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(my_project2) ➜  my_project2 python --version</span><br><span class="line">Python 3.7.1</span><br></pre></td></tr></table></figure>
+
+<p>创建 <code>env</code> 是需要注意的一个命令是 <code>–system-site-packages</code>，加上这个命令会使用系统已经按照的第三方包，不加就算一个纯净的 <code>env</code> 版本。如果要关闭 <code>env</code>，输入 <code>deactivate</code> 就可以了。</p>
+<p>如果要删除 <code>env</code>，直接删除对应的文件夹就行。</p>
+<h2 id="virtualenvwrapper"><a href="#virtualenvwrapper" class="headerlink" title="virtualenvwrapper"></a>virtualenvwrapper</h2><p>一个文件夹一个 <code>env</code>，看上去非常方便，但是时间一长，谁知道自己创建了几个 <code>env</code> 的文件夹，管理起来不方便，所有我们需要有一个工具帮助我们使用 <code>virtualenv</code>。<code>virtualenvwrapper</code> 是 <code>virtualenv</code>，可以帮助我们管理 <code>env</code> 环境。</p>
+<p>安装：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install virtualenvwrapper</span><br></pre></td></tr></table></figure>
+
+<p>添加环境变量：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then</span><br><span class="line">   export WORKON_HOME=$HOME/.virtualenvs </span><br><span class="line">   source /usr/local/bin/virtualenvwrapper.sh</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>以后我们所有的 <code>env</code> 都会安装到 <code>~/.virtualenvs</code> 文件夹下。如果打开名命令行的时候显示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/python: No module named virtualenvwrapper</span><br><span class="line">virtualenvwrapper.sh: There was a problem running the initialization hooks.</span><br><span class="line"></span><br><span class="line">If Python could not import the module virtualenvwrapper.hook_loader,</span><br><span class="line">check that virtualenvwrapper has been installed for</span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=/usr/bin/python and that PATH is</span><br><span class="line">set properly.</span><br></pre></td></tr></table></figure>
+
+<p>那么把 <code>VIRTUALENVWRAPPER_PYTHON</code> 设置为 <code>Python3</code>。</p>
+<p>创建一个 <code>virtualenv</code>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkvirtualenv venv</span><br></pre></td></tr></table></figure>
+
+<p>创建的时候 <code>virtualenv</code> 参数同样适用：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkvirtualenv -p /usr/local/bin/python3 py3</span><br></pre></td></tr></table></figure>
+
+<p>其他命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">lsvirtualenv -b <span class="comment"># 列出虚拟环境</span></span><br><span class="line"></span><br><span class="line">workon [虚拟环境名称] <span class="comment"># 切换虚拟环境</span></span><br><span class="line"></span><br><span class="line">lssitepackages <span class="comment"># 查看环境里安装了哪些包</span></span><br><span class="line"></span><br><span class="line">cdvirtualenv [子目录名] <span class="comment"># 进入当前环境的目录</span></span><br><span class="line"></span><br><span class="line">cpvirtualenv [<span class="built_in">source</span>] [dest] <span class="comment"># 复制虚拟环境</span></span><br><span class="line"></span><br><span class="line">deactivate <span class="comment"># 退出虚拟环境</span></span><br><span class="line"></span><br><span class="line">rmvirtualenv [虚拟环境名称] <span class="comment"># 删除虚拟环境</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="pyenv"><a href="#pyenv" class="headerlink" title="pyenv"></a>pyenv</h2><p>使用 <code>virtualenv</code> 和 <code>virtualenvwrapper</code> 可以方便的管理 <code>python</code> 环境，但是现在我们系统中只有两个版本 <code>python2</code> 和 <code>python3</code>，如果一个项目要求我们的 <code>python</code> 版本是 <code>3.6</code>，但是系统的 <code>python</code> 版本是 <code>3.7</code>，我们该怎么做呢？我们可以下载 <code>python3.6</code>，安装到一个文件夹，然后使用 <code>-p</code> 新建一个 <code>virtualenv</code> 环境。但是这样的话首先下载安装就很麻烦，需要打开浏览器，下载，解压，安装，其次鬼知道我们安装了多少个 <code>python</code> 版本，时间一长，很难管理，所以我们需要一个工具 <code>pyenv</code>。</p>
+<p>安装：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install pyenv</span><br></pre></td></tr></table></figure>
+
+<p>添加环境变量：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eval &quot;$(pyenv init -)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>查看 <code>python</code> 版本列表：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv install --list</span><br></pre></td></tr></table></figure>
+
+<p>安装对应的版本：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.7</span><br></pre></td></tr></table></figure>
+
+<p>结果出错了：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">BUILD FAILED (OS X 10.14.2 using python-build 20180424)</span><br><span class="line"></span><br><span class="line">Inspect or clean up the working tree at /var/folders/1d/_h3bhfsd33z3yf4x566ncqkw0000gn/T/python-build.20190107184844.88127</span><br><span class="line">Results logged to /var/folders/1d/_h3bhfsd33z3yf4x566ncqkw0000gn/T/python-build.20190107184844.88127.<span class="built_in">log</span></span><br><span class="line"></span><br><span class="line">Last 10 <span class="built_in">log</span> lines:</span><br><span class="line">  File <span class="string">&quot;/private/var/folders/1d/_h3bhfsd33z3yf4x566ncqkw0000gn/T/python-build.20190107184844.88127/Python-3.6.7/Lib/ensurepip/__main__.py&quot;</span>, line 5, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    sys.exit(ensurepip._main())</span><br><span class="line">  File <span class="string">&quot;/private/var/folders/1d/_h3bhfsd33z3yf4x566ncqkw0000gn/T/python-build.20190107184844.88127/Python-3.6.7/Lib/ensurepip/__init__.py&quot;</span>, line 204, <span class="keyword">in</span> _main</span><br><span class="line">    default_pip=args.default_pip,</span><br><span class="line">  File <span class="string">&quot;/private/var/folders/1d/_h3bhfsd33z3yf4x566ncqkw0000gn/T/python-build.20190107184844.88127/Python-3.6.7/Lib/ensurepip/__init__.py&quot;</span>, line 117, <span class="keyword">in</span> _bootstrap</span><br><span class="line">    <span class="built_in">return</span> _run_pip(args + [p[0] <span class="keyword">for</span> p <span class="keyword">in</span> _PROJECTS], additional_paths)</span><br><span class="line">  File <span class="string">&quot;/private/var/folders/1d/_h3bhfsd33z3yf4x566ncqkw0000gn/T/python-build.20190107184844.88127/Python-3.6.7/Lib/ensurepip/__init__.py&quot;</span>, line 27, <span class="keyword">in</span> _run_pip</span><br><span class="line">    import pip._internal</span><br><span class="line">zipimport.ZipImportError: can<span class="string">&#x27;t decompress data; zlib not available</span></span><br><span class="line"><span class="string">make: *** [install] Error 1</span></span><br></pre></td></tr></table></figure>
+
+<p>Google 的解决方法，首先：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcode-select --install</span><br></pre></td></tr></table></figure>
+
+<p>如果不行的话：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CFLAGS=<span class="string">&quot;-I<span class="subst">$(brew --prefix openssl)</span>/include -I<span class="subst">$(xcrun --show-sdk-path)</span>/usr/include&quot;</span> \</span><br><span class="line">LDFLAGS=<span class="string">&quot;-L<span class="subst">$(brew --prefix openssl)</span>/lib&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>最终还是不行，尝试用 <code>brew</code> 安装 <code>zlib</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install zlib</span><br></pre></td></tr></table></figure>
+
+<p>然后添加环境变量：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LDFLAGS=&quot;-L/usr/local/opt/zlib/lib&quot;</span><br><span class="line">CPPFLAGS=&quot;-I/usr/local/opt/zlib/include&quot;</span><br></pre></td></tr></table></figure>
+
+<p>但是仍然没有用，最后：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /</span><br></pre></td></tr></table></figure>
+
+<p>成功！</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ pyenv install 3.6.7</span><br><span class="line">python-build: use openssl from homebrew</span><br><span class="line">python-build: use readline from homebrew</span><br><span class="line">Downloading Python-3.6.7.tar.xz...</span><br><span class="line">-&gt; https://www.python.org/ftp/python/3.6.7/Python-3.6.7.tar.xz</span><br><span class="line">Installing Python-3.6.7...</span><br><span class="line">python-build: use readline from homebrew</span><br><span class="line">Installed Python-3.6.7 to /Users/sunwei/.pyenv/versions/3.6.7</span><br></pre></td></tr></table></figure>
+
+<p>然后查看 <code>python</code> 版本：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ pyenv versions</span><br><span class="line">* system (<span class="built_in">set</span> by /Users/sunwei/.pyenv/version)</span><br><span class="line">  3.6.7</span><br></pre></td></tr></table></figure>
+
+<p>当前使用的是系统中的 <code>python</code>，我们切换成刚才安装的 <code>3.6.7</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ pyenv global 3.6.7</span><br><span class="line">➜  ~ python --version</span><br><span class="line">Python 3.6.7</span><br></pre></td></tr></table></figure>
+
+<p>设置全局版本：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv global 3.6.7</span><br></pre></td></tr></table></figure>
+
+<p>只对当前目录有效：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv <span class="built_in">local</span> 3.6.7</span><br></pre></td></tr></table></figure>
+
+<p>对当前 <code>shell</code> 有效：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv shell 3.6.7</span><br></pre></td></tr></table></figure>
+
+<p>和 <code>virtualenv</code> 结合使用，需要安装插件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install pyenv-virtualenv</span><br></pre></td></tr></table></figure>
+
+<p>新建一个指定 <code>python</code> 版本的 <code>virtualenv</code>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pyenv virtualenv &lt;版本号&gt; &lt;文件夹&gt;</span></span><br><span class="line">pyenv virtualenv 3.6.7 my_env</span><br></pre></td></tr></table></figure>
+
+<p>新建的 <code>virtualenv</code> 需要指定目录，还是不好管理，那么终极解决方案，使用 <code> pyenv-virtualenvwrapper</code>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install pyenv-virtualenvwrapper</span><br></pre></td></tr></table></figure>
+
+<p>安装完后需要激活一下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv virtualenvwrapper </span><br></pre></td></tr></table></figure>
+
+<p>然后是使用，我们想新建一个 <code>python3.6.7</code> 版本的 <code>virtualenvwrapper</code>，</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pyenv shell 3.6.7</span><br><span class="line">pip install virtualenvwrapper  <span class="comment"># 第一次使用新的 Python 环境需要安装此包，否则创建的虚拟环境 Python 版本仍为系统默认</span></span><br><span class="line">mkvirtualenv python3</span><br></pre></td></tr></table></figure>
+
+<p>检查一下结果：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ workon py3.6.7</span><br><span class="line">(py3.6.7) ➜  ~ python --version</span><br><span class="line">Python 3.6.7</span><br></pre></td></tr></table></figure>
+
+<p>大公告成！</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="http://codingpy.com/article/virtualenv-must-have-tool-for-python-development/">http://codingpy.com/article/virtualenv-must-have-tool-for-python-development/</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/jeikerxiao/article/details/53635267">https://blog.csdn.net/jeikerxiao/article/details/53635267</a><br><a target="_blank" rel="noopener" href="https://lisupy.github.io/2018/10/01/2018-10-01-Mojave%E4%BD%BF%E7%94%A8pyenv%E5%AE%89%E8%A3%85python/#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95">https://lisupy.github.io/2018/10/01/2018-10-01-Mojave%E4%BD%BF%E7%94%A8pyenv%E5%AE%89%E8%A3%85python/#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95</a><br><a target="_blank" rel="noopener" href="https://my.oschina.net/OHC1U9jZt/blog/2243919">https://my.oschina.net/OHC1U9jZt/blog/2243919</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30859003">https://zhuanlan.zhihu.com/p/30859003</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sw926.github.io/2019/01/07/virtualenv/" data-id="cleghn5z30036bbs602xfh1b5" class="article-share-link">Share</a>
+      
+        <a href="http://sw926.github.io/2019/01/07/virtualenv/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/01/09/Karabiner-Elements/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          神器 Karabiner Elements 配置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/07/Android%E5%85%A8%E5%B1%8F%E5%88%87%E6%8D%A2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android全屏切换</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Node-js/">Node.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-Studio/" rel="tag">Android Studio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dagger2/" rel="tag">Dagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Databinding/" rel="tag">Databinding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gson/" rel="tag">Gson</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Thread/" rel="tag">Java Thread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Time/" rel="tag">Java Time</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Karabiner-Elements/" rel="tag">Karabiner Elements</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySql/" rel="tag">MySql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ngrok/" rel="tag">Ngrok</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/" rel="tag">Other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Room/" rel="tag">Room</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bash/" rel="tag">bash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sdkman/" rel="tag">sdkman</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sh/" rel="tag">sh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ss/" rel="tag">ss</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Studio/" style="font-size: 18px;">Android Studio</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/Dagger2/" style="font-size: 14px;">Dagger2</a> <a href="/tags/Databinding/" style="font-size: 10px;">Databinding</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/Git/" style="font-size: 12px;">Git</a> <a href="/tags/Gradle/" style="font-size: 16px;">Gradle</a> <a href="/tags/Gson/" style="font-size: 10px;">Gson</a> <a href="/tags/Java/" style="font-size: 12px;">Java</a> <a href="/tags/Java-Thread/" style="font-size: 10px;">Java Thread</a> <a href="/tags/Java-Time/" style="font-size: 10px;">Java Time</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Karabiner-Elements/" style="font-size: 10px;">Karabiner Elements</a> <a href="/tags/Kotlin/" style="font-size: 12px;">Kotlin</a> <a href="/tags/MySql/" style="font-size: 12px;">MySql</a> <a href="/tags/Nginx/" style="font-size: 12px;">Nginx</a> <a href="/tags/Ngrok/" style="font-size: 10px;">Ngrok</a> <a href="/tags/Other/" style="font-size: 10px;">Other</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Room/" style="font-size: 10px;">Room</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Spring-Boot/" style="font-size: 16px;">Spring Boot</a> <a href="/tags/bash/" style="font-size: 10px;">bash</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/sdkman/" style="font-size: 10px;">sdkman</a> <a href="/tags/sh/" style="font-size: 10px;">sh</a> <a href="/tags/ss/" style="font-size: 10px;">ss</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/14/ADB-%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">ADB 命令整理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/27/Kotlin-%E8%A1%A5%E5%9D%91/">Kotlin 补坑</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/22/Kotlin%E7%9A%84%E9%9D%9E%E7%A9%BA%E6%96%AD%E8%A8%80%E8%B0%83%E7%94%A8/">Kotlin的非空断言调用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/02/Java-Time/">Java Time</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/03/Tips-Java-Thread/">Tips:Java Thread</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 sunwei<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'sw926';
+  
+  var disqus_url = 'http://sw926.github.io/2019/01/07/virtualenv/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-62569931-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-62569931-6');
+</script>
+
+  </div>
+</body>
+</html>

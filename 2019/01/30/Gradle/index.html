@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Gradle | 小宇宙</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="安装和新建工程安装： 1brew install gradle  初始化一个工程，在工程文件夹下执行： 1gradle init  选择 java-application，脚本格式为groovy，工程目录结构如下： 1234567891011121314151617181920.├── build.gradle├── gradle│   └── wrapper│       ├── gradle-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle">
+<meta property="og:url" content="http://sw926.github.io/2019/01/30/Gradle/index.html">
+<meta property="og:site_name" content="小宇宙">
+<meta property="og:description" content="安装和新建工程安装： 1brew install gradle  初始化一个工程，在工程文件夹下执行： 1gradle init  选择 java-application，脚本格式为groovy，工程目录结构如下： 1234567891011121314151617181920.├── build.gradle├── gradle│   └── wrapper│       ├── gradle-">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-01-30T07:10:40.000Z">
+<meta property="article:modified_time" content="2023-02-23T02:20:24.460Z">
+<meta property="article:author" content="sunwei">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Gradle">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="小宇宙" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">小宇宙</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://sw926.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Gradle" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/30/Gradle/" class="article-date">
+  <time datetime="2019-01-30T07:10:40.000Z" itemprop="datePublished">2019-01-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Gradle
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="安装和新建工程"><a href="#安装和新建工程" class="headerlink" title="安装和新建工程"></a>安装和新建工程</h2><p>安装：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install gradle</span><br></pre></td></tr></table></figure>
+
+<p>初始化一个工程，在工程文件夹下执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradle init</span><br></pre></td></tr></table></figure>
+
+<p>选择 <code>java-application</code>，脚本格式为<code>groovy</code>，工程目录结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── build.gradle</span><br><span class="line">├── gradle</span><br><span class="line">│   └── wrapper</span><br><span class="line">│       ├── gradle-wrapper.jar</span><br><span class="line">│       └── gradle-wrapper.properties</span><br><span class="line">├── gradlew</span><br><span class="line">├── gradlew.bat</span><br><span class="line">├── settings.gradle</span><br><span class="line">└── src</span><br><span class="line">    ├── main</span><br><span class="line">    │   ├── java</span><br><span class="line">    │   │   └── demo</span><br><span class="line">    │   │       └── App.java</span><br><span class="line">    │   └── resources</span><br><span class="line">    └── test</span><br><span class="line">        ├── java</span><br><span class="line">        │   └── demo</span><br><span class="line">        │       └── AppTest.java</span><br><span class="line">        └── resources</span><br></pre></td></tr></table></figure>
+
+<p><code>build.gradle</code> 为构建文件，<code>settings.gradle</code> 工程配置文件，子工程的目录就是在 <code>settings.gradle</code> 里面配置。</p>
+<p>Gradle 项目一般会使用 wrapper，这样项目在其他其他设备运行的时候就无需安装 Gradle了。上面的项目，我们构建的时候应该使用 <code>gradlew</code>，而不是使用 <code>gradle</code>，</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./gradlew -v</span><br></pre></td></tr></table></figure>
+
+<p><code>gradlew</code> 是一个 shell 脚本文件，这个脚本会检查系统是否安装了指定版本的 Gradle，如果没有安装会自动下载安装 Gradle，在 Mac 上安装位置为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/.gradle/wrapper/dists</span><br></pre></td></tr></table></figure>
+
+<p>wrapper 的好处一是会自动下载 Gradle，二是构建项目使用的是 <code>gradle-wrapper.properties</code>文件中指定的 Gradle 版本，避免了因为使用不用版本的 Gradle 构建项目而出现的问题。</p>
+<p>理论上 Gradle 工程只要一个 <code>build.gradle</code> 就足够了，如果工程没有配置 wrapper，可以使用命令添加：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradle wrapper --gradle-version 5.1.1 --distribution-type all</span><br></pre></td></tr></table></figure>
+
+<p>后面两个命令可以指定 wrapper 的版本和类型，<code>--distribution-type</code> 有两个，<code>all</code> 会下载全部的代码和文档，<code>bin</code> 是只下载最基本的文件。对已经配置好 wrapper 的工程使用 wrapper 命令可以修改 wrapper 的版本和类型。</p>
+<h2 id="Gradle-构建脚本"><a href="#Gradle-构建脚本" class="headerlink" title="Gradle 构建脚本"></a>Gradle 构建脚本</h2><p>Gradle 和 Maven、Ant 不用的地方是它构建文件就是代码文件，<code>build.gradle</code> 其实就是一个 <code>groovy</code> 格式的代码文件，从 5.0 开始 Gradle 支持 Kotlin 格式的构建文件 <code>build.gradle.kts</code>。我们可以直接在构建文件里面写代码，Groovy 允许直接使用 Java 代码，Kotlin 只能使用 Java 代码。</p>
+<p>我们在 <code>build.gradle</code> 加入以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">hello</span> <span class="operator">=</span> <span class="string">&quot;Hello World!&quot;</span></span><br><span class="line">System.out.println(hello)</span><br></pre></td></tr></table></figure>
+
+<p>执行 <code>./gradlew -q</code>，输出结果为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Hello World!</span><br><span class="line"></span><br><span class="line">Welcome to Gradle 5.1.1.</span><br><span class="line"></span><br><span class="line">To run a build, run gradlew &lt;task&gt; ...</span><br><span class="line"></span><br><span class="line">To see a list of available tasks, run gradlew tasks</span><br><span class="line"></span><br><span class="line">To see a list of command-line options, run gradlew --<span class="built_in">help</span></span><br><span class="line"></span><br><span class="line">To see more detail about a task, run gradlew <span class="built_in">help</span> --task &lt;task&gt;</span><br><span class="line"></span><br><span class="line">For troubleshooting, visit https://help.gradle.org</span><br></pre></td></tr></table></figure>
+
+<p>脚步文件中所有代码都会执行，所有我们写在 <code>build.gradle</code> 文件中的代码无需手动调用。</p>
+<h2 id="子工程"><a href="#子工程" class="headerlink" title="子工程"></a>子工程</h2><p>在 root 工程下新建一个文件，在文件夹内新建一个 <code>build.gradle</code>，然后需要把这个子工程包含到 root 工程中，方法是在 <code>settings.gradle</code> 里面添加：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span> <span class="string">&quot;:sub_project&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们可以使用 <code>./gradlew projects</code> 来验证，输出结果为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">------------------------------------------------------------</span><br><span class="line">Root project</span><br><span class="line">------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Root project <span class="string">&#x27;java_demo&#x27;</span></span><br><span class="line">\--- Project <span class="string">&#x27;:sub_project&#x27;</span></span><br><span class="line"></span><br><span class="line">To see a list of the tasks of a project, run gradlew &lt;project-path&gt;:tasks</span><br><span class="line">For example, try running gradlew :sub_project:tasks</span><br></pre></td></tr></table></figure>
+
+<p><code>settings.gradle</code> 也是代码文件，<code>include</code> 对应的函数是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">include</span><span class="params">(String... projectPaths)</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>groovy</code> 的语法允许我们这样调用：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include <span class="string">&quot;:sub1&quot;</span>, <span class="string">&quot;:sub2&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>include</code> 的参数 <code>projectPaths</code> 不是文件路径，而是工程路径，工程路径分割符为 <code>:</code>，默认工程路径和文件路径是对应的，例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:sub_project:sub_sub_project </span><br></pre></td></tr></table></figure>
+
+<p>对应文件路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$rootDir/sub_project/sub_sub_project </span><br></pre></td></tr></table></figure>
+
+<p>工程目录为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Root project &#x27;java_demo&#x27;</span><br><span class="line">\--- Project &#x27;:sub_project&#x27;</span><br><span class="line">     \--- Project &#x27;:sub_project:sub_sub_project&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>文件目录为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java_demo</span><br><span class="line">└── sub_project</span><br><span class="line">    └── sub_sub_project</span><br></pre></td></tr></table></figure>
+
+<p>工程路径和文件路径不需要对应的，例如子工程文件路径 <code>java_demo/sub_project/sub_sub_project</code> 为，是个三级目录，我们想把它作为一个二级工程，路径为 <code>:sub_project2</code>，<code>settings.gradle</code> 文件可以修改为：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rootProject.name = <span class="string">&#x27;java_demo&#x27;</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&quot;:sub_project&quot;</span>,<span class="string">&quot;:sub_project2&quot;</span></span><br><span class="line"><span class="keyword">project</span>(<span class="string">&quot;:sub_project2&quot;</span>).projectDir = <span class="keyword">file</span>(<span class="string">&quot;sub_project/sub_sub_project&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>工程目录就变为了：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Root project <span class="string">&#x27;java_demo&#x27;</span></span><br><span class="line">+--- Project <span class="string">&#x27;:sub_project&#x27;</span></span><br><span class="line">\--- Project <span class="string">&#x27;:sub_project2&#x27;</span> </span><br></pre></td></tr></table></figure>
+
+<p>我们做的工作是首先通过 <code>include</code> 声明工程结构，root project 为 <code>java_demo</code>，有两个二级项目，然后通过 <code>project(&quot;:sub_project2&quot;).projectDir = file(&quot;sub_project/sub_sub_project&quot;)</code> 指定项目的路径。</p>
+<h2 id="Project"><a href="#Project" class="headerlink" title="Project"></a>Project</h2><h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p><code>Project</code> 和 <code>build.gradle</code> 是一对一的关系，Gradle 会在初始化阶段为每个 <code>build.gradle</code> 文件创建一个 <code>Project</code> 实例，过程如下：</p>
+<ul>
+<li>创建一个 <code>Settings</code> 实例</li>
+<li>执行 <code>settings.gradle</code> 脚本，对 <code>Settings</code> 对象进行配置</li>
+<li>使用配置后的 <code>Settings</code> 对象创建工程目录</li>
+<li>最后执行每个 <code>build.gradle</code> 脚本</li>
+</ul>
+<h3 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h3><p>Task 创建方式如下：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">task</span> myTask(type: SomeType, dependsOn: SomeTask) &#123;</span><br><span class="line">    <span class="comment">// 配置 Task</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Task</code> 包括一系列 Action，可以通过 <code>doLast</code> 想向队尾添加一个 Action，通过 <code>doFirst</code> 向队首添加一个 Action，<code>dependsOn</code> 指定依赖的 <code>Task</code>，执行的时候依赖的 <code>Task</code> 会首先执行。<code>type</code> 相当于 <code>extends</code>，例如 Android 工程中的 <code>clean</code>：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">task</span> clean(type: <span class="keyword">Delete</span>) &#123;</span><br><span class="line">    <span class="keyword">delete</span> rootProject.buildDir</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p><code>clean</code> 是一个 <code>Delete</code> 的扩展，可以使使用 <code>Delete</code> 的 <code>delete</code> 方法。</p>
+<h3 id="Configuration-和-Dependency"><a href="#Configuration-和-Dependency" class="headerlink" title="Configuration 和 Dependency"></a>Configuration 和 Dependency</h3><p>Gradle 会帮助我们自动下载依赖的库，配置方法是添加 <code>repositories</code> 和 <code>dependencies</code></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">repositories</span> &#123;</span><br><span class="line">    mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 Java 和 Android 项目中，使用 <code>implementation</code> 可以添加要依赖的库，但是在空白的 Gradle 中是没有 <code>implementation</code> 的，<code>implementation</code> 是通过插件引入的，它本质上是一个分组的名称。Gradle 会把依赖进行分组，通过 <code>Configuration</code> 来进行配置，我们添加两个依赖分组，并且添加依赖：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">configurations</span> &#123;</span><br><span class="line">    myDependencyGroup1</span><br><span class="line">    myDependencyGroup2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    myDependencyGroup1 <span class="string">&#x27;org.apache.commons:commons-lang3:3.0&#x27;</span></span><br><span class="line">    myDependencyGroup2 <span class="string">&#x27;org.slf4j:slf4j-log4j12:1.7.2&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以通过一个 Task 输出分组中的依赖：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">task</span> showDeps &#123;</span><br><span class="line">    <span class="keyword">doLast</span> &#123;</span><br><span class="line">        <span class="keyword">println</span> <span class="string">&#x27;group1&#x27;</span></span><br><span class="line">        <span class="keyword">println</span> <span class="keyword">configurations</span>.myDependencyGroup1.asPath</span><br><span class="line">        <span class="keyword">println</span> <span class="string">&#x27;group1&#x27;</span></span><br><span class="line">        <span class="keyword">println</span> <span class="keyword">configurations</span>.myDependencyGroup2.asPath</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">group1</span><br><span class="line">/Users/sunwei/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.0/8873bd0bb5cb9ee37f1b04578eb7e26fcdd44cb0/commons-lang3-3.0.jar</span><br><span class="line">group1</span><br><span class="line">/Users/sunwei/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-log4j12/1.7.2/7539c264413b9b1ff9841cd00058c974b7cd1ec9/slf4j-log4j12-1.7.2.jar:/Users/sunwei/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.2/81d61b7f33ebeab314e07de0cc596f8e858d97/slf4j-api-1.7.2.jar:/Users/sunwei/.gradle/caches/modules-2/files-2.1/log4j/log4j/1.2.17/5af35056b4d257e4b64b9e8069c0746e8b08629f/log4j-1.2.17.jar</span><br></pre></td></tr></table></figure>
+
+<p>这样在构建的时候，可以读取 <code>Configuration</code> 配置的依赖，加入 <code>classpath</code>。</p>
+<h3 id="部分DSL"><a href="#部分DSL" class="headerlink" title="部分DSL"></a>部分DSL</h3><h4 id="allprojects"><a href="#allprojects" class="headerlink" title="allprojects {}"></a><code>allprojects &#123;&#125;</code></h4><p>对所有 Project 进行配置，例如对所有 Project 添加 <code>repositories</code></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">allprojects</span> &#123;</span><br><span class="line">    <span class="keyword">repositories</span> &#123;</span><br><span class="line">        google()</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Plugin"><a href="#Plugin" class="headerlink" title="Plugin"></a>Plugin</h3><p>通过 Plugin 可以对 Project 进行扩展，例如，添加一个 Task，添加一个 Configuration：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DemoPlugin</span> <span class="keyword">implements</span> <span class="title class_">Plugin</span>&lt;Project&gt; &#123;</span><br><span class="line">    <span class="type">void</span> apply(Project project) &#123;</span><br><span class="line"></span><br><span class="line">        project.task(<span class="string">&quot;hello&quot;</span>) &#123;</span><br><span class="line">            doLast &#123;</span><br><span class="line">                println <span class="string">&quot;Hello World&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        project.configurations &#123;</span><br><span class="line">            demoCompile</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个类可以直接添加在 <code>build.gradle</code> 中，也可以放在 <code>buildSrc</code> 目录下，Gradle 会自动包含 <code>buildSrc</code> 目录下的文件。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sw926.github.io/2019/01/30/Gradle/" data-id="cleghn5za003rbbs61v993mfx" class="article-share-link">Share</a>
+      
+        <a href="http://sw926.github.io/2019/01/30/Gradle/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/02/02/%E8%AF%BB%E6%87%82-Gradle-%E7%9A%84-DSL/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          读懂 Gradle 的 DSL
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/16/Shell%E8%AE%B0%E5%BD%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Shell 记录</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Node-js/">Node.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-Studio/" rel="tag">Android Studio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConstraintLayout/" rel="tag">ConstraintLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dagger2/" rel="tag">Dagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Databinding/" rel="tag">Databinding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/" rel="tag">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gson/" rel="tag">Gson</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Thread/" rel="tag">Java Thread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Time/" rel="tag">Java Time</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Karabiner-Elements/" rel="tag">Karabiner Elements</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySql/" rel="tag">MySql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ngrok/" rel="tag">Ngrok</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/" rel="tag">Other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Room/" rel="tag">Room</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bash/" rel="tag">bash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sdkman/" rel="tag">sdkman</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sh/" rel="tag">sh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ss/" rel="tag">ss</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Studio/" style="font-size: 18px;">Android Studio</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/Dagger2/" style="font-size: 14px;">Dagger2</a> <a href="/tags/Databinding/" style="font-size: 10px;">Databinding</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/Git/" style="font-size: 12px;">Git</a> <a href="/tags/Gradle/" style="font-size: 16px;">Gradle</a> <a href="/tags/Gson/" style="font-size: 10px;">Gson</a> <a href="/tags/Java/" style="font-size: 12px;">Java</a> <a href="/tags/Java-Thread/" style="font-size: 10px;">Java Thread</a> <a href="/tags/Java-Time/" style="font-size: 10px;">Java Time</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Karabiner-Elements/" style="font-size: 10px;">Karabiner Elements</a> <a href="/tags/Kotlin/" style="font-size: 12px;">Kotlin</a> <a href="/tags/MySql/" style="font-size: 12px;">MySql</a> <a href="/tags/Nginx/" style="font-size: 12px;">Nginx</a> <a href="/tags/Ngrok/" style="font-size: 10px;">Ngrok</a> <a href="/tags/Other/" style="font-size: 10px;">Other</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Room/" style="font-size: 10px;">Room</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Spring-Boot/" style="font-size: 16px;">Spring Boot</a> <a href="/tags/bash/" style="font-size: 10px;">bash</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/sdkman/" style="font-size: 10px;">sdkman</a> <a href="/tags/sh/" style="font-size: 10px;">sh</a> <a href="/tags/ss/" style="font-size: 10px;">ss</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/14/ADB-%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">ADB 命令整理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/27/Kotlin-%E8%A1%A5%E5%9D%91/">Kotlin 补坑</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/22/Kotlin%E7%9A%84%E9%9D%9E%E7%A9%BA%E6%96%AD%E8%A8%80%E8%B0%83%E7%94%A8/">Kotlin的非空断言调用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/02/Java-Time/">Java Time</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/03/Tips-Java-Thread/">Tips:Java Thread</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 sunwei<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'sw926';
+  
+  var disqus_url = 'http://sw926.github.io/2019/01/30/Gradle/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-62569931-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-62569931-6');
+</script>
+
+  </div>
+</body>
+</html>
